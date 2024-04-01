@@ -1,0 +1,10 @@
+header{
+    width: 100vw;
+    #header-content{
+        display: flex;
+        justify-content: space-around;
+        img{
+            width: 25rem;
+        }
+    }
+}

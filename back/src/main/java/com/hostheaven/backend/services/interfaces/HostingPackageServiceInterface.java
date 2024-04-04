@@ -14,4 +14,7 @@ public interface HostingPackageServiceInterface {
 
 	// Obtiene todos los paquetes de hosting según el id del usuario
 	public List<HostingPackage> getAllHostingPackagesByUserId(int id_user);
+	
+	//Obtiene todos los paquetes de hosting preconfigurados
+	public List<HostingPackage> getAllStandardHostingPackages();
 }

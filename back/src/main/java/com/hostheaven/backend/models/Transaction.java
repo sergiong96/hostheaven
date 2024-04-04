@@ -46,7 +46,11 @@ public class Transaction {
 
 	@Column(nullable = false)
 	@Temporal(TemporalType.DATE)
-	private Date date; // Fecha y hora de la transacción.
+	private Date date_start; // Fecha y hora del inicio del servicio contratado.
+	
+	@Column(nullable = false)
+	@Temporal(TemporalType.DATE)
+	private Date date_end; // Fecha y hora del fin del servicio contratado.
 
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
@@ -61,14 +65,15 @@ public class Transaction {
 	public Transaction() {
 	}
 
-	public Transaction(int id_transaction, int id_package, int id_user, double amount, Date date,
+	public Transaction(int id_transaction, int id_package, int id_user, double amount, Date date_start, Date date_end,
 			paymentMethod payment_method, transactionState state) {
 		super();
 		this.id_transaction = id_transaction;
 		this.id_package = id_package;
 		this.id_user = id_user;
 		this.amount = amount;
-		this.date = date;
+		this.date_start = date_start;
+		this.date_end=date_end;
 		this.payment_method = payment_method;
 		this.state = state;
 	}
@@ -107,14 +112,22 @@ public class Transaction {
 		this.amount = amount;
 	}
 
-	public Date getDate() {
-		return date;
+	public Date getDate_start() {
+		return date_start;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public void setDate_start(Date date_start) {
+		this.date_start = date_start;
 	}
 
+	public Date getDate_end() {
+		return date_end;
+	}
+	
+	public void setDate_end(Date date_end) {
+		this.date_end=date_end;
+	}
+	
 	public paymentMethod getPayment_method() {
 		return payment_method;
 	}
@@ -136,7 +149,7 @@ public class Transaction {
 	@Override
 	public String toString() {
 		return "Transaction [id_transaction=" + id_transaction + ", id_package=" + id_package + ", id_user=" + id_user
-				+ ", amount=" + amount + ", date=" + date + ", payment_method=" + payment_method + ", state=" + state
+				+ ", amount=" + amount + ", date_start=" + date_start + ", date_end=" + date_end +", payment_method=" + payment_method + ", state=" + state
 				+ "]";
 	}
 

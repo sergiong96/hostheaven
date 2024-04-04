@@ -1,5 +1,6 @@
-import HorizontalNavbar from "../HorizontalNavbar_component/HorizontalNavbar";
+import HorizontalNavbar from "../HorizontalNavbar/HorizontalNavbar";
 import './_Header.scss';
+import CountDownTimer from "./CountDownTimer/CountDownTimer";
 
 function Header() {
 
@@ -10,7 +11,11 @@ function Header() {
         <header>
             <HorizontalNavbar />
             <section id="header-content">
-                <article></article>
+                <article>
+                    <h1>15% de descuento en toda la web</h1>
+                    <h2>¡Por tiempo limitado!</h2>
+                    <div className="counter-header"><CountDownTimer/></div>
+                </article>
                 <article>
                     <img src={imgUrl} alt="Imagen Header"></img>
                 </article>

@@ -1,0 +1,76 @@
+@use '../../../styles/vars';
+
+#home-packages-container {
+    display: flex;
+    flex-direction: column;
+
+    h2 {
+        text-align: center;
+    }
+
+    article {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+
+        div.package {
+            border: 2px solid vars.$strong-red;
+            padding: 1rem;
+            border-radius: 5%;
+
+            ul.characteristics {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            p {
+                text-align: center;
+            }
+
+            p.name {
+                outline: 2px solid vars.$main-blue;
+                width: fit-content;
+                padding: 0.5rem;
+                margin: auto;
+                border-radius: 50%;
+                font-size: 1.5rem;
+            }
+
+            p.price {
+                border-bottom: 2px solid vars.$strong-yellow;
+            }
+        }
+
+        .btn-to-cart {
+            display: flex;
+            justify-content: center;
+
+            button {
+                padding: 0.6rem;
+                font-weight: bolder;
+                font-size: 1rem;
+                cursor: pointer;
+                background-color: vars.$main-blue;
+                border-radius: 1rem;
+            }
+        }
+    }
+
+
+    .btn-to-cart-custom {
+        margin: 2rem 0;
+        p{
+            font-size: 1.2rem;
+        }
+        button{
+            padding: 0.6rem;
+            font-weight: bolder;
+            font-size: 1rem;
+            cursor: pointer;
+            background-color: vars.$main-blue;
+            border-radius: 1rem;
+        }
+    }
+}

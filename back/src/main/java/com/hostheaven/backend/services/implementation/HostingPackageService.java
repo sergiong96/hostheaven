@@ -30,4 +30,12 @@ public class HostingPackageService implements HostingPackageServiceInterface {
 		return hostingPackages;
 	}
 
+	@Override
+	public List<HostingPackage> getAllStandardHostingPackages() {
+		List<HostingPackage> hostingPackages=hostingPackageRepository.getAllStandardHostingPackages();
+		return hostingPackages;
+	}
+	
+	
+
 }

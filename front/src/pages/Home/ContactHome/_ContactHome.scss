@@ -1,0 +1,60 @@
+@use '../../../styles/vars';
+
+#contact-home-container {
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border: 2px solid vars.$background-white;
+    margin: 2rem 0;
+    padding: 1rem 0;
+
+    #contact-img-container {
+
+        img {
+            width: 15rem;
+        }
+    }
+
+
+    #contact-form-container {
+        h3 {
+            text-align: center;
+        }
+
+        form#contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+
+            input,
+            textarea,
+            button {
+                border-radius: 1rem;
+                padding: 0.4rem;
+            }
+
+            input#name {
+                width: 95%;
+            }
+
+            #telmail {
+                width: 100%;
+            }
+
+            #msgbtn {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+                width: 100%;
+
+                button {
+                    font-size: 1rem;
+                }
+            }
+
+        }
+
+    }
+
+}

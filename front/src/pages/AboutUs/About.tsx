@@ -1,9 +1,9 @@
 import './_About.scss';
 
-function About(){
+function AboutUs(){
     return(
         <h1>Pagina About</h1>
     );
 };
 
-export default About;
+export default AboutUs;

@@ -5,8 +5,11 @@ import com.hostheaven.backend.models.User;
 public interface UserServiceInterface {
 
 	// Crea un nuevo usuario
-	public void createUser();
+	public String createUser(User user);
 
+	// Verifica que no haya un correo electrónico igual en la base de datos
+	public boolean emailExists(String email);
+	
 	// Obtiene los datos de un usuario según su identificador
 	public User getUserById(int id);
 

@@ -1,0 +1,61 @@
+@use '../../styles/vars';
+
+main#aboutUs-page {
+    padding: 2rem 0;
+
+    section>article:has(p) {
+        width: 35rem;
+    }
+
+    #about-company-container {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        border: 2px solid vars.$background-white;
+
+        img {
+            width: 30rem;
+            display: block;
+        }
+    }
+
+
+    #about-team-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        border: 2px solid vars.$background-white;
+
+        #rombhus-container {
+            img {
+                width: 8rem;
+                height: 8rem;
+                transform: rotate(-45deg);
+            }
+
+            span {
+                display: block;
+                transform: rotate(45deg);
+                width: 8rem;
+                height: 8rem;
+                overflow: hidden;
+            }
+
+            div {
+                display: flex;
+            }
+
+            div:nth-child(1) {
+                transform: translate(128px, 128px);
+            }
+
+            div:nth-child(2) {
+                transform: translate(64px, 64px);
+            }
+
+
+        }
+
+    }
+
+}

@@ -1,4 +1,30 @@
-#usser-icon{
+@use '../../../styles/vars';
+
+#user-icon {
     cursor: pointer;
+    position: relative;
     padding-right: 2rem;
+
+    #logIng-signIn-buttons {
+        display: flex;
+        position: absolute;
+        top: 2.2rem;
+        left: -11.5rem;
+        border: 2px solid black;
+        padding: 1rem;
+        background-color: vars.$background-white;
+        gap: 0.3rem;
+        width: max-content;
+
+        button {
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+    }
 }

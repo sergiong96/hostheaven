@@ -1,0 +1,82 @@
+@use '../../styles/vars';
+
+
+main#register-page {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: auto auto;
+    padding: 2rem 0;
+
+    h1 {
+        text-align: center;
+        grid-row: 1;
+        grid-column: 1/3;
+    }
+
+    #register-img-container {
+        grid-row: 2;
+        grid-column: 1;
+        margin: 0 auto;
+
+        img {
+            width: 20rem;
+        }
+    }
+
+    #register-form-container {
+        grid-row: 2;
+        grid-column: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+
+            label {
+                display: block;
+                width: 6rem;
+            }
+
+            input {
+                width: 10rem;
+                border-radius: 0.5rem;
+                border: 2px solid gray;
+            }
+
+            div:nth-child(1),
+            div:nth-child(2) {
+                display: flex;
+
+                input:first-of-type {
+                    margin-right: 3rem;
+                }
+
+            }
+
+            div:nth-child(3) {
+                display: flex;
+
+
+                select {
+                    width: 10.5rem;
+                    margin-right: 3rem;
+                }
+            }
+
+            button {
+                width: 40%;
+                margin: 0 auto;
+                padding: 0.5rem;
+                border-radius: 0.5rem;
+                border: 2px solid gainsboro;
+                cursor: pointer;
+                background-color: cornflowerblue;
+                font-size: 1.1rem;
+                margin-top: 1rem;
+            }
+        }
+    }
+}

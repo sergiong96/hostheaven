@@ -5,7 +5,7 @@ import com.hostheaven.backend.models.User;
 public interface UserRepositoryInterface {
 
 	// Crea un nuevo usuario
-	public void createUser();
+	public String createUser(User user);
 
 	// Obtiene los datos de un usuario según su identificador
 	public User getUserById(int id);

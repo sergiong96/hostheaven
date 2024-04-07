@@ -18,7 +18,7 @@ function HorizontalNavbar() {
                     </ul>
                 </li>
                 <li><Link to="">Personaliza tu plan</Link></li>
-                <li><Link to="">Sobre nosotros</Link></li>
+                <li><Link to="/about">Sobre nosotros</Link></li>
                 <li><Link to="/contact">Contáctanos</Link></li>
             </ul>
             <User />

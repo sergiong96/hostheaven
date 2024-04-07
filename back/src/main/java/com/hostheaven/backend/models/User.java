@@ -1,7 +1,5 @@
 package com.hostheaven.backend.models;
 
-import java.util.Arrays;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -39,12 +37,10 @@ public class User {
 	private String email;
 
 	@Column(nullable = false)
-	private byte[] password; // Hash de la contraseña en bytes
+	private String password; // Hash de la contraseña 
 
-	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private paymentMethod payment_method; // Método de pago seleccionado
-
 
 	private String payment_reference; // Cuenta bancaria, tarjeta, wallet, etc... guardada para el cobro
 
@@ -53,7 +49,7 @@ public class User {
 	public User() {
 	}
 
-	public User(int id_user, String name, String surname, String email, byte[] password, paymentMethod payment_method,
+	public User(int id_user, String name, String surname, String email, String password, paymentMethod payment_method,
 			String payment_reference) {
 		super();
 		this.id_user = id_user;
@@ -99,11 +95,11 @@ public class User {
 		this.email = email;
 	}
 
-	public byte[] getPassword() {
+	public String getPassword() {
 		return password;
 	}
 
-	public void setPassword(byte[] password) {
+	public void setPassword(String password) {
 		this.password = password;
 	}
 
@@ -127,7 +123,7 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [id_user=" + id_user + ", name=" + name + ", surname=" + surname + ", email=" + email
-				+ ", password=" + Arrays.toString(password) + ", payment_method=" + payment_method
+				+ ", password=" + password + ", payment_method=" + payment_method
 				+ ", payment_reference=" + payment_reference + "]";
 	}
 

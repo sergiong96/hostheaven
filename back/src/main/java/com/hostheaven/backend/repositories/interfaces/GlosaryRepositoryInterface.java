@@ -1,10 +1,13 @@
 package com.hostheaven.backend.repositories.interfaces;
 
+import java.util.List;
+
 import com.hostheaven.backend.models.Glosary;
 
 public interface GlosaryRepositoryInterface {
 
-	// Obtiene el nombre de un concepto y su descripción según el identificador
-	public Glosary getConcept(int id);
-
+	// Obtiene todos los conceptos del glosario
+	public List<Glosary> getAllConcepts();
+	
+	
 }

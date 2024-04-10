@@ -1,8 +1,19 @@
 import './_HostingPlans.scss';
+import Standard from './Standard/Standard';
+import Custom from './Custom/Custom';
+import Header from '../../components/Header/Header';
+import Footer from '../../components/Footer/Footer';
 
-function HostingPlans(){
-    return(
-        <h1>Pagina HostingPlans</h1>
+function HostingPlans() {
+    return (
+        <>
+            <Header />
+            <main id="hostingPlans-page">
+                <Standard />
+                <Custom />
+            </main>
+            <Footer />
+        </>
     );
 };
 

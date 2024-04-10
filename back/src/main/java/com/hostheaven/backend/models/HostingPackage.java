@@ -32,7 +32,7 @@ public class HostingPackage {
 									// personalizados se llaman a elección del usuario o con un nombre por defecto
 
 	@Column(nullable = false)
-	private int package_price;
+	private double package_price;
 
 	@Column(nullable = false)
 	private boolean ssl;
@@ -47,7 +47,7 @@ public class HostingPackage {
 	private boolean migration;
 
 	@Column(nullable = false)
-	private boolean email_account;
+	private int email_account;
 
 	@Column(nullable = false)
 	private boolean app_installation;
@@ -85,8 +85,8 @@ public class HostingPackage {
 	public HostingPackage() {
 	}
 
-	public HostingPackage(int id_package, String package_name, int package_price, boolean ssl, boolean cdn,
-			boolean technical_support_24h, boolean migration, boolean email_account, boolean app_installation,
+	public HostingPackage(int id_package, String package_name, double package_price, boolean ssl, boolean cdn,
+			boolean technical_support_24h, boolean migration, int email_account, boolean app_installation,
 			boolean ftp_server, hostingType hosting_type, int number_of_websites, int storage, int monthly_bandwidth,
 			int domains, int databases, int purchase_quantity, boolean custom) {
 		super();
@@ -128,11 +128,11 @@ public class HostingPackage {
 		this.package_name = package_name;
 	}
 
-	public int getPackage_price() {
+	public double getPackage_price() {
 		return package_price;
 	}
 
-	public void setPackage_price(int package_price) {
+	public void setPackage_price(double package_price) {
 		this.package_price = package_price;
 	}
 
@@ -168,11 +168,11 @@ public class HostingPackage {
 		this.migration = migration;
 	}
 
-	public boolean isEmail_account() {
+	public int getEmail_account() {
 		return email_account;
 	}
 
-	public void setEmail_account(boolean email_account) {
+	public void setEmail_account(int email_account) {
 		this.email_account = email_account;
 	}
 

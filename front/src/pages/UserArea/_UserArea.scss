@@ -1,0 +1,89 @@
+/* Pestañas */
+#tabs ul {
+    list-style-type: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+    background-color: gainsboro;
+
+    li {
+        padding: 1rem;
+        border: 1px solid gray;
+        background-color: gainsboro;
+        cursor: pointer;
+
+        &.active {
+            background-color: gray;
+        }
+    }
+}
+
+
+
+/* CONTENIDO */
+#tab-content {
+
+    &>article {
+        margin: 0;
+        padding: 0;
+        display: none;
+
+
+        &.active {
+            display: block;
+            background-color: gray;
+
+        }
+
+        p {
+            margin: 0;
+            padding: 1rem;
+        }
+    }
+
+    article#user-data {
+        form#user-data-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5rem;
+            padding: 3rem 0;
+
+            div {
+                display: flex;
+
+                label {
+                    display: block;
+                    width: 6rem;
+                }
+
+                input {
+                    width: 10rem;
+                    margin-right: 3rem;
+                }
+
+            }
+
+            button {
+                padding: 1rem;
+                font-size: 1rem;
+                border: none;
+                border-radius: 1rem;
+                cursor: pointer;
+            }
+
+        }
+    }
+
+    article#hosting-portal {
+
+
+        #link-provider {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 5rem;
+            gap: 1rem;
+        }
+    }
+}

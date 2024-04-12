@@ -8,6 +8,7 @@ import AboutUs from '../pages/AboutUs/About';
 import HostingPlans from '../pages/HostingPlans/HostingPlan';
 import Payment from '../pages/Payment/Payment';
 import Glosary from '../pages/Glosary/Glosary';
+import UserArea from '../pages/UserArea/UserArea';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path='/hostingPlans' element={<HostingPlans />} />
         <Route path='/payment' element={<Payment hostingPackageData={[]}/>} />
         <Route path='/glosary' element={<Glosary />} />
+        <Route path='/user' element={<UserArea />} />
       </Routes>
     </BrowserRouter>
   );

@@ -16,3 +16,18 @@ export const signIn = (formData: any) => {
     });
 
 }
+
+
+export const getUserData = (user_id: Number) => {
+
+    return new Promise((resolve, reject) => {
+        fetch(DOMAIN_NAME + `users/getUser/${user_id}`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        }).then((response) => {
+            resolve(response);
+        });
+    });
+}

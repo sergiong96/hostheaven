@@ -66,7 +66,18 @@ public class UserRepository implements UserRepositoryInterface {
 
 	@Override
 	public User getUserById(int id) {
-		return null;
+		Session session = sessionFactory.openSession();
+		Transaction transaction = session.beginTransaction();
+
+		String hql = "FROM User WHERE id_user=:id_user";
+		Query<User> query = session.createQuery(hql, User.class);
+		query.setParameter("id_user", id);
+		User usuario = query.uniqueResult();
+
+		transaction.commit();
+		session.close();
+
+		return usuario;
 	}
 
 	@Override

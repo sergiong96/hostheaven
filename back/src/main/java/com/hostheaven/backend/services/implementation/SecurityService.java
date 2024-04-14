@@ -18,9 +18,23 @@ public class SecurityService implements SecurityServiceInterface {
 	}
 
 	@Override
-	public String verifyPassword(String passwordInput, String passwordBD) {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean verifyPassword(String passwordInput, String passwordBD) {
+		
+		BCryptPasswordEncoder verifier=new BCryptPasswordEncoder();
+		
+		boolean match=verifier.matches(passwordInput, passwordBD);
+		
+		return match;
+	}
+	
+	
+	
+	@Override
+	public String createToken(int id_user, String email) {
+		String token="";
+		
+		//SEGUIR POR AQUI, CREAR EL TOKEN CON EL ID Y EL EMAIL DE USUARIO CODIFICADOS
+		return token;
 	}
 
 }

@@ -16,7 +16,7 @@ public class UserRepository implements UserRepositoryInterface {
 	private SessionFactory sessionFactory;
 
 	@Override
-	public String createUser(User user) {
+	public String createUser(User user) { // ok
 		String response = "";
 		System.out.println("Usuario a insertar: " + user);
 		Session session = null;
@@ -41,7 +41,7 @@ public class UserRepository implements UserRepositoryInterface {
 
 	}
 
-	public boolean verifyEmail(String email) {
+	public boolean verifyEmail(String email) { // ok
 		boolean emailExists = false;
 		String response = "";
 
@@ -65,7 +65,7 @@ public class UserRepository implements UserRepositoryInterface {
 	}
 
 	@Override
-	public User getUserById(int id) {
+	public User getUserById(int id) { // ok
 		Session session = sessionFactory.openSession();
 		Transaction transaction = session.beginTransaction();
 
@@ -78,6 +78,25 @@ public class UserRepository implements UserRepositoryInterface {
 		session.close();
 
 		return usuario;
+	}
+
+	
+	
+	@Override
+	public User getUserDataByEmail(String email) {
+		
+		Session session=sessionFactory.openSession();
+		Transaction transaction=session.beginTransaction();
+		
+		String hql="FROM User WHERE email=:email";
+		Query<User> query=session.createQuery(hql, User.class);
+		query.setParameter("email", email);
+		User data=query.uniqueResult();
+		
+		transaction.commit();
+		session.close();
+		
+		return data;
 	}
 
 	@Override

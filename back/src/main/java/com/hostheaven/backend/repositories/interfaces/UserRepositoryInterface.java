@@ -10,6 +10,9 @@ public interface UserRepositoryInterface {
 	// Obtiene los datos de un usuario según su identificador
 	public User getUserById(int id);
 
+	// // Devuelve lso datos del usuario para el servicio de inicio de sesión
+	public User getUserDataByEmail(String email);
+	
 	// Actualiza los datos de un usuario y devuelve un String en función de si la operación ha tenido éxito o no
 	public String updateUser();
 

@@ -9,6 +9,7 @@ import HostingPlans from '../pages/HostingPlans/HostingPlan';
 import Payment from '../pages/Payment/Payment';
 import Glosary from '../pages/Glosary/Glosary';
 import UserArea from '../pages/UserArea/UserArea';
+import LogInForm from '../components/LogInForm/LogInForm';
 
 function App() {
   return (

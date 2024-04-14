@@ -13,6 +13,9 @@ public interface UserServiceInterface {
 	// Obtiene los datos de un usuario según su identificador
 	public User getUserById(int id);
 
+	// Verifica las credenciales para iniciar sesión
+	public String verifyCredentials(String credentials);
+	
 	// Actualiza los datos de un usuario (excepto su contraseña) y devuelve un String en función de si la
 	// operación ha tenido éxito o no
 	public String updateUser();
@@ -23,12 +26,6 @@ public interface UserServiceInterface {
 	
 	// Cambia la contraseña de un usuario
 	public void changePassword(int id_user, String oldPassword, String newPassword);
-	
-	// Inicia la sesión
-	public boolean logIn();
-	
-	//Cierra la sesión
-	public boolean logOut();
 	
 
 }

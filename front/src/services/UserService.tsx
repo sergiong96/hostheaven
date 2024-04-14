@@ -31,3 +31,19 @@ export const getUserData = (user_id: Number) => {
         });
     });
 }
+
+
+export const logIn = (credentials: string) => {
+
+    return new Promise((resolve, reject) => {
+        fetch(DOMAIN_NAME + "users/logIn", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: credentials
+        }).then((response) => {
+            resolve(response);
+        });
+    });
+}

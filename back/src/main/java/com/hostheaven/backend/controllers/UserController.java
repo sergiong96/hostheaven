@@ -1,5 +1,6 @@
 package com.hostheaven.backend.controllers;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,10 +34,11 @@ public class UserController {
 		return usuario;
 	}
 
-	@PostMapping("/logIn")
+	@PostMapping("/logIn") //ok
 	public String verifyCredentials(@RequestBody String credentials ) {
-		String token=userService.verifyCredentials(credentials);
-		return token;
+		JSONObject token=userService.verifyCredentials(credentials);
+
+		return token.toString();
 	}
 	
 	@PutMapping("/update/{id}")

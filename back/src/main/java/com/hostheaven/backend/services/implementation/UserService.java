@@ -51,24 +51,28 @@ public class UserService implements UserServiceInterface {
 	}
 
 	@Override
-	public String verifyCredentials(String credentials) {
+	public JSONObject verifyCredentials(String credentials) { //ok
 		JSONObject credentialsOBJ = new JSONObject(credentials);
 		String inputEmail = credentialsOBJ.getString("email");
 		String inputPassword = credentialsOBJ.getString("password");
 		String token = "";
+		JSONObject tokenJSON = new JSONObject();
+		boolean samePassword = false;
 
 		User userData = userRepository.getUserDataByEmail(inputEmail);
-
-		String userPassword = userData.getPassword();
-		boolean samePassword = securityService.verifyPassword(inputPassword, userPassword);
+		if (userData != null) {
+			String userPassword = userData.getPassword();
+			samePassword = securityService.verifyPassword(inputPassword, userPassword);
+		}
 
 		if (samePassword) {
 			String userEmail = userData.getEmail();
 			int id_user = userData.getId_user();
 			token = securityService.createToken(id_user, userEmail);
+			tokenJSON.put("token", token);
 		}
 
-		return token;
+		return tokenJSON;
 	}
 
 	@Override

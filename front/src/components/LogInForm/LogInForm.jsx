@@ -1,27 +1,28 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import './_LogInForm.scss';
 import { logIn } from '../../services/UserService';
+import { useNavigate } from 'react-router-dom';
 
 
-function LogInForm({ visible }) {
+function LogInForm({ onClose }) {
 
-
+    const [loginResponse, setLoginResponse] = useState("");
+    const navigate = useNavigate();
 
     useEffect(() => {
-        handleDialog();
-    }, [visible])
+        showDialog();
+    }, [])
 
 
     const closeDialog = () => {
         const dialog = document.querySelector("dialog#logIn-dialog");
         dialog.close();
+        onClose();
     }
 
-    const handleDialog = () => {
+    const showDialog = () => {
         const dialog = document.querySelector("dialog#logIn-dialog");
-        if (visible) {
-            dialog.showModal();
-        }
+        dialog.showModal();
     }
 
     const getFormObject = (form) => {
@@ -40,14 +41,28 @@ function LogInForm({ visible }) {
         event.preventDefault();
         const formObject = getFormObject(event.target);
         const formJSON = JSON.stringify(formObject);
-        console.log(formJSON)
+
 
         logIn(formJSON).then((res) => {
             return res.json();
         }).then((data) => {
-            console.log(data);
+            const token = data.token;
+            if (token) {
+                localStorage.setItem("sessionToken", token);
+                setLoginResponse("Iniciando sesión...");
+
+                setTimeout(() => {
+                    navigate("/userArea")
+                }, 2000);
+
+
+            } else {
+                setLoginResponse("Credenciales incorrectas");
+            }
         });
     }
+
+
 
 
     return (
@@ -64,6 +79,7 @@ function LogInForm({ visible }) {
                 </div>
                 <button type="submit">Iniciar Sesión</button>
             </form>
+            {loginResponse && <p>{loginResponse}</p>}
         </dialog>
     )
 }

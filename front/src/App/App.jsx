@@ -9,7 +9,6 @@ import HostingPlans from '../pages/HostingPlans/HostingPlan';
 import Payment from '../pages/Payment/Payment';
 import Glosary from '../pages/Glosary/Glosary';
 import UserArea from '../pages/UserArea/UserArea';
-import LogInForm from '../components/LogInForm/LogInForm';
 
 function App() {
   return (
@@ -22,7 +21,7 @@ function App() {
         <Route path='/hostingPlans' element={<HostingPlans />} />
         <Route path='/payment' element={<Payment hostingPackageData={[]}/>} />
         <Route path='/glosary' element={<Glosary />} />
-        <Route path='/user' element={<UserArea />} />
+        <Route path='/userArea' element={<UserArea />} />
       </Routes>
     </BrowserRouter>
   );

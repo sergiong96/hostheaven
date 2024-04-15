@@ -1,9 +1,11 @@
-import './_UserArea.scss'; 
+import './_UserArea.scss';
 import { useEffect, useState } from 'react';
 import { ENDPOINTS } from '../../services/VirtualminService';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import { getUserData } from '../../services/UserService';
+import { jwtDecode } from 'jwt-decode';
+import { useNavigate } from 'react-router-dom';
 
 
 function UserArea() {
@@ -11,17 +13,29 @@ function UserArea() {
     const [showContent, setShowContent] = useState("user-data");
     const [links, setLink] = useState([]);
     const [showErrorMessage, setShowErrorMessage] = useState(false);
-    const [userData, setUserData] = useState({}); 
+    const [userID, setUserID] = useState(-1);
+    const [userData, setUserData] = useState({});
+    const navigate=useNavigate();
 
-
-    //(Cuando desarrolle el sistema de sesion (JWT en el servidor y guardarlo en el localStorage del cliente) añadire funcionalidad aqui y esto cambiara) 
     useEffect(() => {
-        getUserData(1).then((res) => { //ESTE DATO DEBE CAMBIAR, CUANDO IMPLEMENTE EL INCICIO DE SESIÓN SALDRÁ DEL TOKEN DE SESION DONDE SE GUARDARÁ EL ID DE USUARIO
-            return res.json()
-        }).then((data) => {
-            setUserData(data);
-        })
-    }, []);  
+        const token = localStorage.getItem("sessionToken");
+
+        if (token) {
+            const decodifiedToken = jwtDecode(token);
+            setUserID(parseInt(decodifiedToken.sub));
+        }
+    }, []);
+
+
+    useEffect(() => {
+        if (userID !== -1) {
+            getUserData(userID).then((res) => {
+                return res.json()
+            }).then((data) => {
+                setUserData(data);
+            })
+        }
+    }, [userID])
 
     //Llamada a servicio para obtener los datos del paquete de hosting contratado.
 
@@ -40,6 +54,10 @@ function UserArea() {
         }
     }
 
+    const closeSession=()=>{
+        localStorage.removeItem("sessionToken");
+        navigate("/");
+    }
 
     return (
         <>
@@ -93,7 +111,7 @@ function UserArea() {
                                 <button type="submit">Cambiar contraseña</button>
                             </form>
                         </div>
-
+                        <button type="button" id="close-session" onClick={closeSession}>Cerrar Sesión</button>
                     </article>
                     <article id="hosting-portal" className={showContent === "hosting-portal" ? "active" : ""}>
                         <p>Para acceder a su panel de control, pulse sobre el botón 'Generar enlace' y se le proporcionará un link de acceso seguro</p>

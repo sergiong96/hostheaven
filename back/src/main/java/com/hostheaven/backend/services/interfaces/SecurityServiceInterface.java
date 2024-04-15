@@ -1,5 +1,7 @@
 package com.hostheaven.backend.services.interfaces;
 
+import org.json.JSONObject;
+
 public interface SecurityServiceInterface {
 
 	
@@ -11,4 +13,7 @@ public interface SecurityServiceInterface {
 	
 	// Devuelve el token de sesión con JWT
 	public String createToken(int id_user, String email);
+	
+	// Valida el token pasado como parámetro y devuelve el id y email del usuario codificados en él en una cadena JSON
+	public JSONObject validateToken(String token);
 }

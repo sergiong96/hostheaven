@@ -85,7 +85,7 @@
         }
 
 
-        button {
+        button:not(#close-session) {
             font-size: 1rem;
             border: 2px solid vars.$main-violet;
             border-radius: 1rem;
@@ -155,6 +155,23 @@
             button {
                 grid-column: 2;
                 grid-row: 1;
+            }
+        }
+
+        button#close-session {
+            cursor: pointer;
+            width: 20%;
+            margin: 2rem auto 0 auto;
+            padding: 0.5rem;
+            font-size: 1rem;
+            border-radius: 1rem;
+            border: 1px solid vars.$background-white;
+            color: white;
+            background-color: vars.$strong-red;
+            transform: scale(1);
+
+            &:hover {
+                transform: scale(1.1);
             }
         }
     }

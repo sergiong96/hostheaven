@@ -16,16 +16,16 @@ import jakarta.persistence.TemporalType;
  * Entidad que representa las transacciones económicas que se realicen en la
  * web.
  */
-@Table(name = "transactions")
+@Table(name = "trades")
 @Entity
-public class Transaction {
+public class Trade {
 
 	// ENUM
 	private enum paymentMethod {
 		TARJETA_CREDITO, TARJETA_DEBITO, TRANSFERENCIA, PAYPAL, WALLET
 	};
 
-	private enum transactionState {
+	private enum tradeState {
 		PENDIENTE, COMPLETADO, CANCELADO
 	}
 
@@ -33,7 +33,7 @@ public class Transaction {
 	// VARIABLES
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id_transaction;
+	private int id_trade;
 
 	@Column(nullable = false)
 	private int id_package; // (FK) Referencia al ID del paquete contratado.
@@ -58,17 +58,17 @@ public class Transaction {
 
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
-	private transactionState state; // Estado de la transacción.
+	private tradeState state; // Estado de la transacción.
 
 	
 	// CONSTRUCTORES
-	public Transaction() {
+	public Trade() {
 	}
 
-	public Transaction(int id_transaction, int id_package, int id_user, double amount, Date date_start, Date date_end,
-			paymentMethod payment_method, transactionState state) {
+	public Trade(int id_trade, int id_package, int id_user, double amount, Date date_start, Date date_end,
+			paymentMethod payment_method, tradeState state) {
 		super();
-		this.id_transaction = id_transaction;
+		this.id_trade = id_trade;
 		this.id_package = id_package;
 		this.id_user = id_user;
 		this.amount = amount;
@@ -80,12 +80,12 @@ public class Transaction {
 
 	
 	// GETTERS Y SETTERS
-	public int getId_transaction() {
-		return id_transaction;
+	public int getId_trade() {
+		return id_trade;
 	}
 
-	public void setId_transaction(int id_transaction) {
-		this.id_transaction = id_transaction;
+	public void setId_trade(int id_trade) {
+		this.id_trade = id_trade;
 	}
 
 	public int getId_package() {
@@ -136,11 +136,11 @@ public class Transaction {
 		this.payment_method = payment_method;
 	}
 
-	public transactionState getState() {
+	public tradeState getState() {
 		return state;
 	}
 
-	public void setState(transactionState state) {
+	public void setState(tradeState state) {
 		this.state = state;
 	}
 
@@ -148,7 +148,7 @@ public class Transaction {
 	// TO STRING
 	@Override
 	public String toString() {
-		return "Transaction [id_transaction=" + id_transaction + ", id_package=" + id_package + ", id_user=" + id_user
+		return "Trade [id_trade=" + id_trade + ", id_package=" + id_package + ", id_user=" + id_user
 				+ ", amount=" + amount + ", date_start=" + date_start + ", date_end=" + date_end +", payment_method=" + payment_method + ", state=" + state
 				+ "]";
 	}

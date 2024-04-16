@@ -68,7 +68,8 @@ public class UserService implements UserServiceInterface {
 		if (samePassword) {
 			String userEmail = userData.getEmail();
 			int id_user = userData.getId_user();
-			token = securityService.createToken(id_user, userEmail);
+			String name=userData.getName();
+			token = securityService.createToken(id_user,name, userEmail);
 			tokenJSON.put("token", token);
 		}
 

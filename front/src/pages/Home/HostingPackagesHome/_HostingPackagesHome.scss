@@ -40,6 +40,15 @@
 
             p.price {
                 border-bottom: 2px solid vars.$strong-yellow;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                input {
+                    width: 15%;
+                    border: none;
+                    text-align: end;
+                }
             }
         }
 
@@ -61,10 +70,12 @@
 
     .btn-to-cart-custom {
         margin: 2rem 0;
-        p{
+
+        p {
             font-size: 1.2rem;
         }
-        button{
+
+        button {
             padding: 0.6rem;
             font-weight: bolder;
             font-size: 1rem;

@@ -33,7 +33,7 @@ public class SecurityService implements SecurityServiceInterface {
 	
 	
 	@Override
-	public String createToken(int id_user, String email) { //ok
+	public String createToken(int id_user, String name, String email) { //ok
 		String token="";
 
 		byte[] claveBytes = SECRET_KEY.getBytes();
@@ -41,6 +41,7 @@ public class SecurityService implements SecurityServiceInterface {
 		token = Jwts.builder() // Instancia de JJWT para crear el token
 				.setSubject(String.valueOf(id_user)) // Subject, que suele ser un identificador único del usuario
 				.claim("email", email) // Añade información al token en pares clave-valor
+				.claim("name", name)
 				.signWith(SignatureAlgorithm.HS512, claveBytes) // Firma el token con un algoritmo de encriptación y la clave secreta pasada como un array de bytes[]
 				.compact(); // Une el token en un String
 

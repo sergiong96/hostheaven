@@ -19,7 +19,7 @@ function App() {
         <Route path='/register' element={<Register />} />
         <Route path='/about' element={<AboutUs />} />
         <Route path='/hostingPlans' element={<HostingPlans />} />
-        <Route path='/payment' element={<Payment hostingPackageData={[]}/>} />
+        <Route path='/payment' element={<Payment />} />
         <Route path='/glosary' element={<Glosary />} />
         <Route path='/userArea' element={<UserArea />} />
       </Routes>

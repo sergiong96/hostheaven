@@ -2,18 +2,18 @@ package com.hostheaven.backend.services.interfaces;
 
 import java.util.List;
 
-import com.hostheaven.backend.models.Transaction;
+import com.hostheaven.backend.models.Trade;
 
-public interface TransactionServiceInterface {
+public interface TradeServiceInterface {
 	// Crea una nueva transacción
-	public void createTransaction();
+	public String createTrade(Trade trade);
 
 	// Obtiene todos los datos de una transacción por su identificador
-	public Transaction getTransactionById(int id);
+	public Trade getTradeById(int id);
 
 	// Obtiene todas las transacciones realizadas por un usuario concreto
-	public List<Transaction> getAllTransactionByUserId(int id_user);
+	public List<Trade> getAllTradesByUserId(int id_user);
 
 	// Elimina una transacción según su identificador
-	public void deleteTransactionById(int id);
+	public void deleteTradeById(int id);
 }

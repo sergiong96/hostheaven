@@ -34,6 +34,7 @@ function Payment() {
 
     useEffect(() => {
         setPackageData(location.state.packageData);
+        console.log(packageData)
     }, [packageData])
 
 
@@ -46,29 +47,65 @@ function Payment() {
         endDate.setMonth(startDate.getMonth() + selectedPeriod);
         const endDateFormat = `${endDate.getFullYear()}-${(endDate.getMonth() + 1).toString().padStart(2, '0')}-${endDate.getDate().toString().padStart(2, '0')}`;
         const finalPrice = document.querySelector("#period>article>div:has(input[type=radio]:checked) span input[name=final-amount]").value;
+        let dataObject = {};
 
-        const dataObject = {
-            id_package: packageData.id_package,
-            id_user: userData.user_id,
-            amount: finalPrice,
-            date_start: startDateFormat,
-            date_end: endDateFormat,
-            payment_method: paymentSelected,
-            state: "COMPLETADO"
-        };
-
+        if (packageData.custom) {
+            // Para paquetes custom (tal vez es mejor asignarle los datos de packageData en un bucle, 
+            // los names en el formulario custom deben ser como en la clase de la entidad de hosting packages)
+            //despues asignar uno a uno los demas valroes (fechas, precio, id usuario, metodo pago, y los true por defecto)
+            dataObject = {
+                package_name: packageData.package_name,
+                id_user: userData.user_id,
+                package_price: finalPrice,
+                date_start: startDateFormat,
+                date_end: endDateFormat,
+                payment_method: paymentSelected,
+                custom: true,
+                hosting_type: packageData.type,
+                email_account: packageData.email_account,
+                storage: packageData.storage,
+                monthly_bandwidth: packageData.bandwidth,
+                domains: packageData.domains,
+                databases: packageData.databases,
+                ftp_server: true,
+                migration: packageData.migration,
+                purchase_quantity: "1",
+                technical_support_24h: packageData.technical_support_24h,
+                ssl: true,
+                cdn: true,
+                app_installation: packageData.app_installation,
+                state: "COMPLETADO"
+            };
+        } else {
+            // Para paquetes estandar
+            dataObject = {
+                id_package: packageData.id_package,
+                id_user: userData.user_id,
+                amount: finalPrice,
+                date_start: startDateFormat,
+                date_end: endDateFormat,
+                payment_method: paymentSelected,
+                state: "COMPLETADO"
+            };
+        }
 
         createTransaction(dataObject).then((res) => {
             return res.json();
         }).then((data) => {
-            alert(data.response);
-            setTimeout(() => {
-                navigate("/userArea");
-            }, 2000);
+            //alert(data.response);
+           // setTimeout(() => {
+           //     navigate("/userArea");
+           // }, 2000);
         })
+        // YA TENGO LA GESTION EN EL CLIENTE PARA LOS PAQUETES ESTANDAR Y CUSTOM
+        // EN SPRING TENGO QUE VER SI EL PAQUETE A CONTRATAR ES CUSTOM Y, EN CASO AFIRAMTIVO:
+        // -Primero extraer del paquete las características que necesito para insertarlo en la tabla hostingPackages:
+        //      (nombre,precio, ssl,cdn,soporte,migration,email,appinstall,ftp,tipo,storage,bandwith,domains,databases,cantidadUsuarios+1, custom=true).
+        // -Función para insertar el nuevo paquete creado.
+        // -Extraer las caracteristicas para la tabla trades:
+        //      (idpaquete que se acaba de insertar,idUser,precio,dateStart,dateEnd,tipoPago,estado).
+        // -Insertarlo en la tabla trades como el paquete contratado por un usuario.
 
-        // (Estas gestiones son para los paquetes preconfigurados, para los custom sera un poco diferente
-        // pues tengo que insertarlos a la tabla de paquetes antes de crear la transaccion )
     }
 
 

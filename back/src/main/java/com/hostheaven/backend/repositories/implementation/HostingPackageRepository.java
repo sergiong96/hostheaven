@@ -17,8 +17,27 @@ public class HostingPackageRepository implements HostingPackageRepositoryInterfa
     private SessionFactory sessionFactory;
 	
 	@Override
-	public void createHostingPackage() {
+	public int createHostingPackage(HostingPackage hostingPackage) {
+		System.out.println("Paquete a insertar: " + hostingPackage);
+		int id_package=-1;
+		Session session = null;
+		Transaction transaction = null;
 
+		try {
+			session = sessionFactory.openSession();
+			transaction = session.beginTransaction();
+			session.persist(hostingPackage);
+			id_package=hostingPackage.getId_package();
+			transaction.commit();
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+		} finally {
+			session.close();
+		}
+		
+		return id_package;
 	}
 
 	@Override

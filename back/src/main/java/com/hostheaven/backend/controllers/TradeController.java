@@ -1,6 +1,8 @@
 package com.hostheaven.backend.controllers;
 
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -10,6 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.hostheaven.backend.models.HostingPackage;
+import com.hostheaven.backend.models.HostingPackage.hostingType;
 import com.hostheaven.backend.models.Trade;
 import com.hostheaven.backend.services.implementation.TradeService;
 
@@ -22,10 +27,12 @@ public class TradeController {
 	private TradeService tradeService;
 
 	@PostMapping("/create")
-	public String createTrade(@RequestBody Trade trade) {
-		String response=tradeService.createTrade(trade);
+	public void createTrade(@RequestBody Map<String, String> trade) {
+		System.out.println(trade);
 
-		return "{\"response\": \"" + response + "\"}";
+		/*String response=*/tradeService.createTrade(trade);
+
+		//return "{\"response\": \"" + response + "\"}";
 	}
 
 	@GetMapping("/transaction/{id}")

@@ -18,7 +18,7 @@ import jakarta.persistence.Table;
 public class HostingPackage {
 
 	// ENUMS
-	private enum hostingType {
+	public enum hostingType {
 		COMPARTIDO, VPS, DEDICADO, CLOUD, WORDPRESS
 	};
 
@@ -60,9 +60,6 @@ public class HostingPackage {
 	private hostingType hosting_type; // COMPARTIDO, VPS, DEDICADO, CLOUD, WORDPRESS
 
 	@Column(nullable = false)
-	private int number_of_websites;
-
-	@Column(nullable = false)
 	private int storage; // Expresado en Gb
 
 	@Column(nullable = false)
@@ -87,7 +84,7 @@ public class HostingPackage {
 
 	public HostingPackage(int id_package, String package_name, double package_price, boolean ssl, boolean cdn,
 			boolean technical_support_24h, boolean migration, int email_account, boolean app_installation,
-			boolean ftp_server, hostingType hosting_type, int number_of_websites, int storage, int monthly_bandwidth,
+			boolean ftp_server, hostingType hosting_type, int storage, int monthly_bandwidth,
 			int domains, int databases, int purchase_quantity, boolean custom) {
 		super();
 		this.id_package = id_package;
@@ -101,7 +98,6 @@ public class HostingPackage {
 		this.app_installation = app_installation;
 		this.ftp_server = ftp_server;
 		this.hosting_type = hosting_type;
-		this.number_of_websites = number_of_websites;
 		this.storage = storage;
 		this.monthly_bandwidth = monthly_bandwidth;
 		this.domains = domains;
@@ -200,14 +196,6 @@ public class HostingPackage {
 		this.hosting_type = hosting_type;
 	}
 
-	public int getNumber_of_websites() {
-		return number_of_websites;
-	}
-
-	public void setNumber_of_websites(int number_of_websites) {
-		this.number_of_websites = number_of_websites;
-	}
-
 	public int getStorage() {
 		return storage;
 	}
@@ -264,7 +252,7 @@ public class HostingPackage {
 				+ package_price + ", ssl=" + ssl + ", cdn=" + cdn + ", technical_support_24h=" + technical_support_24h
 				+ ", migration=" + migration + ", email_account=" + email_account + ", app_installation="
 				+ app_installation + ", ftp_server=" + ftp_server + ", hosting_type=" + hosting_type
-				+ ", number_of_websites=" + number_of_websites + ", storage=" + storage + ", monthly_bandwidth="
+				+ ", storage=" + storage + ", monthly_bandwidth="
 				+ monthly_bandwidth + ", domains=" + domains + ", databases=" + databases + ",purchase_quantity="
 				+ purchase_quantity + ",isCustom=" + custom + "]";
 	}

@@ -1,12 +1,13 @@
 package com.hostheaven.backend.services.interfaces;
 
 import java.util.List;
+import java.util.Map;
 
 import com.hostheaven.backend.models.Trade;
 
 public interface TradeServiceInterface {
 	// Crea una nueva transacción
-	public String createTrade(Trade trade);
+	public void createTrade(Map<String, String> trade);
 
 	// Obtiene todos los datos de una transacción por su identificador
 	public Trade getTradeById(int id);

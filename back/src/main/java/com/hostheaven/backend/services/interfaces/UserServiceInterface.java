@@ -1,5 +1,7 @@
 package com.hostheaven.backend.services.interfaces;
 
+import java.util.Map;
+
 import org.json.JSONObject;
 
 import com.hostheaven.backend.models.User;
@@ -20,14 +22,14 @@ public interface UserServiceInterface {
 	
 	// Actualiza los datos de un usuario (excepto su contraseña) y devuelve un String en función de si la
 	// operación ha tenido éxito o no
-	public String updateUser();
+	public String updateUser(User user);
 
 	// Elimina un usuario según su identificador y devuelve un String en función de
 	// si la operación ha tenido éxito o no
 	public String deleteUserById(int id);
 	
 	// Cambia la contraseña de un usuario
-	public void changePassword(int id_user, String oldPassword, String newPassword);
+	public String changePassword(Map<String, String> password);
 	
 
 }

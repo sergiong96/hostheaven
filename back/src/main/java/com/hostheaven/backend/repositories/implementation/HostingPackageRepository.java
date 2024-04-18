@@ -27,8 +27,8 @@ public class HostingPackageRepository implements HostingPackageRepositoryInterfa
 			session = sessionFactory.openSession();
 			transaction = session.beginTransaction();
 			session.persist(hostingPackage);
-			id_package=hostingPackage.getId_package();
 			transaction.commit();
+			id_package=hostingPackage.getId_package();
 		} catch (Exception e) {
 			if (transaction != null) {
 				transaction.rollback();

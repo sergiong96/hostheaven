@@ -1,5 +1,6 @@
 package com.hostheaven.backend.controllers;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -27,10 +28,10 @@ public class TradeController {
 	private TradeService tradeService;
 
 	@PostMapping("/create")
-	public void createTrade(@RequestBody Map<String, String> trade) {
+	public void createTrade(@RequestBody Map<String, String> trade) throws ParseException {
 		System.out.println(trade);
 
-		/*String response=*/tradeService.createTrade(trade);
+		String response=tradeService.createTrade(trade);
 
 		//return "{\"response\": \"" + response + "\"}";
 	}

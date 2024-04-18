@@ -14,8 +14,10 @@ public class HostingPackageService implements HostingPackageServiceInterface {
 	private HostingPackageRepository hostingPackageRepository;
 
 	@Override
-	public void createHostingPackage() {
-		this.hostingPackageRepository.createHostingPackage();
+	public int createHostingPackage(HostingPackage hostingPackage) {
+		int id_package=this.hostingPackageRepository.createHostingPackage(hostingPackage);
+		
+		return id_package;
 	}
 
 	@Override

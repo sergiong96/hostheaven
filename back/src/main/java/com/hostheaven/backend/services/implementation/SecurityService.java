@@ -22,11 +22,11 @@ public class SecurityService implements SecurityServiceInterface {
 	}
 
 	@Override
-	public boolean verifyPassword(String passwordInput, String passwordBD) { //ok
+	public boolean verifyPassword(String rawPasswordInput, String hashedUserPassword) { //ok
 		
 		BCryptPasswordEncoder verifier=new BCryptPasswordEncoder();
 		
-		boolean match=verifier.matches(passwordInput, passwordBD);
+		boolean match=verifier.matches(rawPasswordInput, hashedUserPassword);
 		
 		return match;
 	}

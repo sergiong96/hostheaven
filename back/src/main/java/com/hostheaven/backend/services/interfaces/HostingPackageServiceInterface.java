@@ -7,7 +7,7 @@ import com.hostheaven.backend.models.HostingPackage;
 public interface HostingPackageServiceInterface {
 
 	// Crea un nuevo paquete de hosting
-	public void createHostingPackage();
+	public int createHostingPackage(HostingPackage hostingPackage);
 
 	// Obtiene los datos de un paquete de hosting por su identificador
 	public HostingPackage getHostingPackageById(int id);

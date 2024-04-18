@@ -20,8 +20,8 @@ public class HostingPackageController {
 	private HostingPackageService hostingPackageService;
 
 	@PutMapping("/create")
-	public void createHostingPackage() {
-		hostingPackageService.createHostingPackage();
+	public void createHostingPackage(HostingPackage hostingPackage) {
+		hostingPackageService.createHostingPackage(hostingPackage);
 	}
 
 	@GetMapping("/hostingpackage/{id}")

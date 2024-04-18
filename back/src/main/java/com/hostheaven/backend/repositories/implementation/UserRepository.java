@@ -80,38 +80,98 @@ public class UserRepository implements UserRepositoryInterface {
 		return usuario;
 	}
 
-	
-	
 	@Override
 	public User getUserDataByEmail(String email) {
-		
-		Session session=sessionFactory.openSession();
-		Transaction transaction=session.beginTransaction();
-		
-		String hql="FROM User WHERE email=:email";
-		Query<User> query=session.createQuery(hql, User.class);
+
+		Session session = sessionFactory.openSession();
+		Transaction transaction = session.beginTransaction();
+
+		String hql = "FROM User WHERE email=:email";
+		Query<User> query = session.createQuery(hql, User.class);
 		query.setParameter("email", email);
-		User data=query.uniqueResult();
-		
+		User data = query.uniqueResult();
+
 		transaction.commit();
 		session.close();
-		
+
 		return data;
 	}
 
 	@Override
-	public String updateUser() {
-		return null;
+	public String updateUser(User userData) { // ok
+
+		Session session = null;
+		Transaction transaction = null;
+		String response = "";
+
+		try {
+			User usuario = this.getUserById(userData.getId_user());
+			if (usuario != null) {
+				usuario.setName(userData.getName());
+				usuario.setEmail(userData.getEmail());
+				usuario.setSurname(userData.getSurname());
+				session = sessionFactory.openSession();
+				transaction = session.beginTransaction();
+
+				session.merge(usuario);
+
+				transaction.commit();
+
+				response = "Actualizacion realizada con exito";
+			} else {
+				response = "Usuario no encontrado";
+			}
+
+		} catch (Exception e) {
+			response = "Error al actualizar: " + e.getMessage();
+			if (transaction != null) {
+				transaction.rollback();
+			}
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+
+		return response;
+	}
+
+	@Override
+	public String changePassword(User user, String newPassword) { //ok
+		Session session = null;
+		Transaction transaction = null;
+		String response = "";
+
+		try {
+			session = sessionFactory.openSession();
+			transaction = session.beginTransaction();
+
+			user.setPassword(newPassword);
+			session.merge(user);
+
+			transaction.commit();
+
+			response = "Contraseña actualizada con exito";
+
+		} catch (Exception e) {
+
+			response = "Error al actualizar: " + e.getMessage();
+			if (transaction != null) {
+				transaction.rollback();
+			}
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+
+		}
+
+		return response;
 	}
 
 	@Override
 	public String deleteUserById(int id) {
 		return null;
-	}
-
-	@Override
-	public void changePassword(int id_user, String oldPassword, String newPassword) {
-
 	}
 
 }

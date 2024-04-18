@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { ENDPOINTS } from '../../services/VirtualminService';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
-import { getUserData } from '../../services/UserService';
+import { getUserData, updateData, changePassword } from '../../services/UserService';
 import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 
@@ -15,7 +15,14 @@ function UserArea() {
     const [showErrorMessage, setShowErrorMessage] = useState(false);
     const [userID, setUserID] = useState(-1);
     const [userData, setUserData] = useState({});
-    const navigate=useNavigate();
+    const [newPassword, setNewPassword] = useState({
+        id_user: -1,
+        actual_pass: "",
+        new_pass: "",
+        new_pass_rep: ""
+    });
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const token = localStorage.getItem("sessionToken");
@@ -35,6 +42,12 @@ function UserArea() {
                 setUserData(data);
             })
         }
+
+        setNewPassword({
+            ...newPassword,
+            id_user: userID
+        });
+
     }, [userID])
 
     //Llamada a servicio para obtener los datos del paquete de hosting contratado.
@@ -54,10 +67,54 @@ function UserArea() {
         }
     }
 
-    const closeSession=()=>{
+    const closeSession = () => {
         localStorage.removeItem("sessionToken");
         navigate("/");
     }
+    const handleChangeUserData = (event) => {
+        const { name, value } = event.target;
+        setUserData({
+            ...userData,
+            [name]: value
+        }
+
+        )
+    }
+
+    const handleSubmitUserData = (event) => {
+        console.log(userData)
+        event.preventDefault();
+        updateData(userData).then((res) => {
+            return res.json();
+        }).then((data) => {
+            console.log(data)
+        })
+
+    }
+
+    const handleChangePassword = (event) => {
+        const { name, value } = event.target;
+        setNewPassword({
+            ...newPassword,
+            [name]: value
+        })
+    }
+
+    const handleSubmitPassword = (event) => {
+
+        event.preventDefault();
+        if (newPassword.new_pass !== newPassword.new_pass_rep) {
+            alert("La contraseña repetida no coincide con la nueva contraseña");
+        } else {
+            changePassword(newPassword).then((res) => {
+                return res.json();
+            }).then((data) => {
+                console.log(data)
+            })
+            console.log(newPassword)
+        }
+    }
+
 
     return (
         <>
@@ -75,37 +132,37 @@ function UserArea() {
                         <p>Aquí puede ver y modificar sus datos</p>
 
                         <div>
-                            <form action="#" id="user-data-form">
+                            <form action="#" id="user-data-form" onSubmit={handleSubmitUserData}>
                                 {/* Tal vez tengo que cambiar lo del default value cuando quiera implementar la actuaqlizacion de los datos? */}
                                 <div>
                                     <div>
                                         <label htmlFor="nomb">Nombre</label>
-                                        <input type="text" id="nomb" name="name" defaultValue={userData.name} />
+                                        <input type="text" id="nomb" name="name" defaultValue={userData.name} onChange={handleChangeUserData} />
                                     </div>
                                     <div>
                                         <label htmlFor="ape">Apellidos</label>
-                                        <input type="text" id="ape" name="surname" defaultValue={userData.surname} />
+                                        <input type="text" id="ape" name="surname" defaultValue={userData.surname} onChange={handleChangeUserData} />
                                     </div>
                                 </div>
                                 <div>
                                     <label htmlFor="mail">Email</label>
-                                    <input type="email" id="mail" name="email" defaultValue={userData.email} />
+                                    <input type="email" id="mail" name="email" defaultValue={userData.email} onChange={handleChangeUserData} />
                                 </div>
                                 <button type="submit">Actualizar mis datos</button>
                             </form>
-                            <form action="#" id="change-pass-form">
+                            <form action="#" id="change-pass-form" onSubmit={handleSubmitPassword}>
                                 <div>
                                     <label htmlFor="passAct">Contraseña actual</label>
-                                    <input type="password" id="passAct" name="actualPassword" />
+                                    <input type="password" id="passAct" name="actual_pass" onChange={handleChangePassword} />
                                 </div>
                                 <div>
                                     <div>
                                         <label htmlFor="passNew">Nueva contraseña</label>
-                                        <input type="password" id="passNew" name="newPassword" />
+                                        <input type="password" id="passNew" name="new_pass" onChange={handleChangePassword} />
                                     </div>
                                     <div>
                                         <label htmlFor="passRep">Repita la contraseña</label>
-                                        <input type="password" id="passRep" name="repNewPassword" />
+                                        <input type="password" id="passRep" name="new_pass_rep" onChange={handleChangePassword} />
                                     </div>
                                 </div>
                                 <button type="submit">Cambiar contraseña</button>

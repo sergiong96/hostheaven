@@ -5,6 +5,9 @@ import org.springframework.stereotype.Service;
 import com.hostheaven.backend.models.User;
 import com.hostheaven.backend.repositories.implementation.UserRepository;
 import com.hostheaven.backend.services.interfaces.UserServiceInterface;
+
+import java.util.Map;
+
 import org.json.*;
 
 @Service
@@ -51,7 +54,7 @@ public class UserService implements UserServiceInterface {
 	}
 
 	@Override
-	public JSONObject verifyCredentials(String credentials) { //ok
+	public JSONObject verifyCredentials(String credentials) { // ok
 		JSONObject credentialsOBJ = new JSONObject(credentials);
 		String inputEmail = credentialsOBJ.getString("email");
 		String inputPassword = credentialsOBJ.getString("password");
@@ -68,8 +71,8 @@ public class UserService implements UserServiceInterface {
 		if (samePassword) {
 			String userEmail = userData.getEmail();
 			int id_user = userData.getId_user();
-			String name=userData.getName();
-			token = securityService.createToken(id_user,name, userEmail);
+			String name = userData.getName();
+			token = securityService.createToken(id_user, name, userEmail);
 			tokenJSON.put("token", token);
 		}
 
@@ -77,21 +80,38 @@ public class UserService implements UserServiceInterface {
 	}
 
 	@Override
-	public String updateUser() {
-		String mensaje = this.userRepository.updateUser();
+	public String updateUser(User user) { // ok
+		String mensaje = this.userRepository.updateUser(user);
 		return mensaje;
+	}
+
+	@Override
+	public String changePassword(Map<String, String> passwordData) { //ok
+
+		User user = userRepository.getUserById(Integer.parseInt(passwordData.get("id_user")));
+		String hashedUserPassword = user.getPassword();
+		
+		String rawPasswordToVerificate = passwordData.get("actual_pass");
+		
+		String newPassword = passwordData.get("new_pass");
+		String newPasswordHash=securityService.generateHash(newPassword);
+
+		String response = "";
+
+		if (securityService.verifyPassword(rawPasswordToVerificate, hashedUserPassword)) {
+			response = userRepository.changePassword(user, newPasswordHash);
+		} else {
+			response = "La contraseña introducida no es correcta";
+		}
+
+		return response;
+
 	}
 
 	@Override
 	public String deleteUserById(int id) {
 		String mensaje = this.userRepository.deleteUserById(id);
 		return mensaje;
-	}
-
-	@Override
-	public void changePassword(int id_user, String oldPassword, String newPassword) {
-		this.userRepository.changePassword(id_user, oldPassword, newPassword);
-
 	}
 
 }

@@ -34,7 +34,6 @@ function Payment() {
 
     useEffect(() => {
         setPackageData(location.state.packageData);
-        console.log(packageData)
     }, [packageData])
 
 
@@ -50,9 +49,7 @@ function Payment() {
         let dataObject = {};
 
         if (packageData.custom) {
-            // Para paquetes custom (tal vez es mejor asignarle los datos de packageData en un bucle, 
-            // los names en el formulario custom deben ser como en la clase de la entidad de hosting packages)
-            //despues asignar uno a uno los demas valroes (fechas, precio, id usuario, metodo pago, y los true por defecto)
+            // Para paquetes custom
             dataObject = {
                 package_name: packageData.package_name,
                 id_user: userData.user_id,

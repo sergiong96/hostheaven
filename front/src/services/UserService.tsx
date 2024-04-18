@@ -47,3 +47,36 @@ export const logIn = (credentials: string) => {
         });
     });
 }
+
+
+export const updateData = (userData: any) => {
+
+    return new Promise((resolve, reject) => {
+        fetch(DOMAIN_NAME + "users/updateUser", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userData)
+        }).then((response) => {
+            resolve(response);
+        })
+    })
+}
+
+
+export const changePassword = (passwordObj: any) => {
+
+    return new Promise((resolve, reject) => {
+        fetch(DOMAIN_NAME + "users/changePassword", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(passwordObj)
+        }).then((response) => {
+            resolve(response);
+        })
+    })
+
+}

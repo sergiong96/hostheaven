@@ -1,6 +1,6 @@
 package com.hostheaven.backend.models;
 
-import java.sql.Date;
+import java.util.Date;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -21,11 +21,11 @@ import jakarta.persistence.TemporalType;
 public class Trade {
 
 	// ENUM
-	private enum paymentMethod {
+	public enum paymentMethod {
 		TARJETA_CREDITO, TARJETA_DEBITO, TRANSFERENCIA, PAYPAL, WALLET
 	};
 
-	private enum tradeState {
+	public enum tradeState {
 		PENDIENTE, COMPLETADO, CANCELADO
 	}
 

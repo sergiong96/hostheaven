@@ -27,10 +27,8 @@ public class HostingPackage {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id_package;
 
-	@Column(nullable = false)
 	private String package_name; // Los preconfigurados pueden ser 'PRUEBA, BÁSICO, PREMIUM, DELUXE', los
 									// personalizados se llaman a elección del usuario o con un nombre por defecto
-
 	@Column(nullable = false)
 	private double package_price;
 

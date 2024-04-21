@@ -137,7 +137,7 @@ public class UserRepository implements UserRepositoryInterface {
 	}
 
 	@Override
-	public String changePassword(User user, String newPassword) { //ok
+	public String changePassword(User user, String newPassword) { // ok
 		Session session = null;
 		Transaction transaction = null;
 		String response = "";
@@ -170,8 +170,35 @@ public class UserRepository implements UserRepositoryInterface {
 	}
 
 	@Override
-	public String deleteUserById(int id) {
-		return null;
+	public String deleteUser(User user) {
+		Session session = null;
+		Transaction transaction = null;
+		String message = "";
+
+		try {
+
+			session = sessionFactory.openSession();
+			transaction = session.beginTransaction();
+
+			session.remove(user);
+			transaction.commit();
+			message = "Cuenta eliminada con éxito";
+
+		} catch (Exception e) {
+
+			if (transaction != null) {
+				transaction.rollback();
+			}
+
+			message = "Ha ocurrido un error inesperado";
+
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+
+		return message;
 	}
 
 }

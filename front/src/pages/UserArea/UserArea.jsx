@@ -6,6 +6,8 @@ import Footer from '../../components/Footer/Footer';
 import { getUserData, updateData, changePassword } from '../../services/UserService';
 import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
+import DeleteUserForm from './DeleteUserForm/DeleteUserForm';
+import ServerResponse from '../../components/ServerResponse/ServerResponse';
 
 
 function UserArea() {
@@ -15,11 +17,16 @@ function UserArea() {
     const [showErrorMessage, setShowErrorMessage] = useState(false);
     const [userID, setUserID] = useState(-1);
     const [userData, setUserData] = useState({});
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [newPassword, setNewPassword] = useState({
         id_user: -1,
         actual_pass: "",
         new_pass: "",
         new_pass_rep: ""
+    });
+    const [responseData, setResponseData] = useState({
+        status: 0,
+        response: ""
     });
 
     const navigate = useNavigate();
@@ -40,7 +47,7 @@ function UserArea() {
                 return res.json()
             }).then((data) => {
                 setUserData(data);
-            })
+            });
         }
 
         setNewPassword({
@@ -67,10 +74,11 @@ function UserArea() {
         }
     }
 
-    const closeSession = () => {
+    const closeSession = () => { //SACAR DE AQUÍ Y PONER EL BOTÓN QUE HAGA ESTO EN EL USER DEL NAVBAR
         localStorage.removeItem("sessionToken");
         navigate("/");
     }
+
     const handleChangeUserData = (event) => {
         const { name, value } = event.target;
         setUserData({
@@ -81,13 +89,36 @@ function UserArea() {
         )
     }
 
+    const showDeleteForm = () => {
+        setShowDeleteModal(true);
+    }
+
+    const closeDeleteModal = () => {
+        setShowDeleteModal(false);
+    }
+
     const handleSubmitUserData = (event) => {
-        console.log(userData)
         event.preventDefault();
+        let resStatus = 0;
+
+        setResponseData({
+            status: parseInt(resStatus),
+            response: ""
+        });
+
         updateData(userData).then((res) => {
+            resStatus = res.status;
             return res.json();
         }).then((data) => {
-            console.log(data)
+            setResponseData({
+                status: parseInt(resStatus),
+                response: data.response
+            });
+        }).catch((error) => {
+            setResponseData({
+                status: parseInt(resStatus),
+                response: error
+            });
         })
 
     }
@@ -106,12 +137,21 @@ function UserArea() {
         if (newPassword.new_pass !== newPassword.new_pass_rep) {
             alert("La contraseña repetida no coincide con la nueva contraseña");
         } else {
+            let resStatus = 0;
+
+            setResponseData({
+                status: parseInt(resStatus),
+                response: ""
+            });
             changePassword(newPassword).then((res) => {
+                resStatus = res.status;
                 return res.json();
             }).then((data) => {
-                console.log(data)
+                setResponseData({
+                    status: parseInt(resStatus),
+                    response: data.response
+                });
             })
-            console.log(newPassword)
         }
     }
 
@@ -133,7 +173,6 @@ function UserArea() {
 
                         <div>
                             <form action="#" id="user-data-form" onSubmit={handleSubmitUserData}>
-                                {/* Tal vez tengo que cambiar lo del default value cuando quiera implementar la actuaqlizacion de los datos? */}
                                 <div>
                                     <div>
                                         <label htmlFor="nomb">Nombre</label>
@@ -168,7 +207,8 @@ function UserArea() {
                                 <button type="submit">Cambiar contraseña</button>
                             </form>
                         </div>
-                        <button type="button" id="close-session" onClick={closeSession}>Cerrar Sesión</button>
+                        <button type="button" id="delete-user" onClick={showDeleteForm}>Quiero eliminar mi cuenta</button>
+                        {showDeleteModal && <DeleteUserForm user_id={userID} onClose={closeDeleteModal} />}
                     </article>
                     <article id="hosting-portal" className={showContent === "hosting-portal" ? "active" : ""}>
                         <p>Para acceder a su panel de control, pulse sobre el botón 'Generar enlace' y se le proporcionará un link de acceso seguro</p>
@@ -203,6 +243,7 @@ function UserArea() {
                     </article>
                 </section>
             </main>
+            {responseData.status !== 0 && <ServerResponse responseStatus={responseData.status} response={responseData.response} />}
             <Footer />
         </>
     )

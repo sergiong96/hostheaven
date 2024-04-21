@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import './_Payment.scss';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
-import { createTransaction } from '../../services/TransactionService';
+import { createTransaction } from '../../services/TradeService';
+import ServerResponse from '../../components/ServerResponse/ServerResponse';
 
 function Payment() {
 
@@ -11,6 +12,10 @@ function Payment() {
     const [packageData, setPackageData] = useState({});
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userData, setUserData] = useState({});
+    const [responseData, setResponseData] = useState({
+        status: 0,
+        response: ""
+    });
 
     useEffect(() => {
         const token = localStorage.getItem("sessionToken");
@@ -86,22 +91,27 @@ function Payment() {
             };
         }
 
+        let resStatus = 0;
+
+        setResponseData({
+            status: parseInt(resStatus),
+            response: ""
+        });
+
         createTransaction(dataObject).then((res) => {
+            resStatus=res.status;
             return res.json();
         }).then((data) => {
-            //alert(data.response);
-           // setTimeout(() => {
-           //     navigate("/userArea");
-           // }, 2000);
+            console.log(data)
+            setResponseData({
+                status: parseInt(resStatus),
+                response: data.response
+            });
+            setTimeout(() => {
+                navigate("/userArea");
+            }, 3000);
+            console.log(responseData)
         })
-        // YA TENGO LA GESTION EN EL CLIENTE PARA LOS PAQUETES ESTANDAR Y CUSTOM
-        // EN SPRING TENGO QUE VER SI EL PAQUETE A CONTRATAR ES CUSTOM Y, EN CASO AFIRAMTIVO:
-        // -Primero extraer del paquete las características que necesito para insertarlo en la tabla hostingPackages:
-        //      (nombre,precio, ssl,cdn,soporte,migration,email,appinstall,ftp,tipo,storage,bandwith,domains,databases,cantidadUsuarios+1, custom=true).
-        // -Función para insertar el nuevo paquete creado.
-        // -Extraer las caracteristicas para la tabla trades:
-        //      (idpaquete que se acaba de insertar,idUser,precio,dateStart,dateEnd,tipoPago,estado).
-        // -Insertarlo en la tabla trades como el paquete contratado por un usuario.
 
     }
 
@@ -118,107 +128,110 @@ function Payment() {
 
 
     return (
-        <main id="payment-page">
-            <form action="">
-                <section id="period">
-                    <p>1. Elige un período</p>
-                    <article>
-                        <div id="1month">
-                            <div onClick={selectRadio}>
-                                <input type="radio" name="time-period" defaultValue="1" />
-                                <p>1 mes</p>
+        <>
+            <main id="payment-page">
+                <form action="">
+                    <section id="period">
+                        <p>1. Elige un período</p>
+                        <article>
+                            <div id="1month">
+                                <div onClick={selectRadio}>
+                                    <input type="radio" name="time-period" defaultValue="1" />
+                                    <p>1 mes</p>
+                                </div>
+                                <span><p>Total<input type="number" name="final-amount" readOnly value={packageData.price} />€</p></span>
+                                <p>{packageData.price}€ al mes</p>
                             </div>
-                            <span><p>Total<input type="number" name="final-amount" readOnly value={packageData.price} />€</p></span>
-                            <p>{packageData.price}€ al mes</p>
-                        </div>
 
-                        <div id="12month">
-                            <div onClick={selectRadio}>
-                                <input type="radio" name="time-period" defaultValue="12" />
-                                <p>12 meses</p>
+                            <div id="12month">
+                                <div onClick={selectRadio}>
+                                    <input type="radio" name="time-period" defaultValue="12" />
+                                    <p>12 meses</p>
+                                </div>
+                                <span><p>Total <input type="number" name="final-amount" readOnly value={((packageData.price - (packageData.price * 0.15)) * 12).toFixed(2)} />€</p></span>
+                                <p>{(packageData.price - (packageData.price * 0.15)).toFixed(2)}€ al mes</p>
                             </div>
-                            <span><p>Total <input type="number" name="final-amount" readOnly value={((packageData.price - (packageData.price * 0.15)) * 12).toFixed(2)} />€</p></span>
-                            <p>{(packageData.price - (packageData.price * 0.15)).toFixed(2)}€ al mes</p>
-                        </div>
 
-                        <div id="24month">
-                            <div onClick={selectRadio}>
-                                <input type="radio" name="time-period" defaultValue="24" />
-                                <p>24 meses</p>
+                            <div id="24month">
+                                <div onClick={selectRadio}>
+                                    <input type="radio" name="time-period" defaultValue="24" />
+                                    <p>24 meses</p>
+                                </div>
+                                <span><p>Total <input type="number" name="final-amount" readOnly value={((packageData.price - (packageData.price * 0.15)) * 24).toFixed(2)} />€</p></span>
+                                <p>{(packageData.price - (packageData.price * 0.20)).toFixed(2)}€ al mes</p>
                             </div>
-                            <span><p>Total <input type="number" name="final-amount" readOnly value={((packageData.price - (packageData.price * 0.15)) * 24).toFixed(2)} />€</p></span>
-                            <p>{(packageData.price - (packageData.price * 0.20)).toFixed(2)}€ al mes</p>
-                        </div>
-                    </article>
+                        </article>
 
-                </section>
-                <section id="payment-method">
-                    <p>2. Elige un método de pago</p>
+                    </section>
+                    <section id="payment-method">
+                        <p>2. Elige un método de pago</p>
 
-                    <article>
-                        <div>
-                            <label htmlFor="credit">Tarjeta de crédito</label>
-                            <input type="radio" name="payment_method" id="credit" defaultValue="TARJETA_CREDITO" />
-                        </div>
-                        <div>
-                            <label htmlFor="debit">Tarjeta de débito</label>
-                            <input type="radio" name="payment_method" id="debit" defaultValue="TARJETA_DEBITO" />
-                        </div>
-                        <div>
-                            <label htmlFor="transfer">Transferencia</label>
-                            <input type="radio" name="payment_method" id="transfer" defaultValue="TRANSFERENCIA" />
-                        </div>
-                        <div>
-                            <label htmlFor="paypal">Paypal</label>
-                            <input type="radio" name="payment_method" id="paypal" defaultValue="PAYPAL" />
-                        </div>
-                        <div>
-                            <label htmlFor="wallet">Wallet</label>
-                            <input type="radio" name="payment_method" id="wallet" defaultValue="WALLET" />
-                        </div>
-                    </article>
-                    <article>
-                        <input type="text" placeholder='Nombre del titular' />
-                        <input type="text" placeholder='Número de tarjeta' />
-                        <div>
-                            <input type="date" placeholder='Fecha de vencimiento' />
-                            <input type="number" placeholder='Código de seguridad' />
-                        </div>
-                    </article>
-                </section>
-                <section id="summary">
-                    <p>3. Resumen del pedido</p>
+                        <article>
+                            <div>
+                                <label htmlFor="credit">Tarjeta de crédito</label>
+                                <input type="radio" name="payment_method" id="credit" defaultValue="TARJETA_CREDITO" />
+                            </div>
+                            <div>
+                                <label htmlFor="debit">Tarjeta de débito</label>
+                                <input type="radio" name="payment_method" id="debit" defaultValue="TARJETA_DEBITO" />
+                            </div>
+                            <div>
+                                <label htmlFor="transfer">Transferencia</label>
+                                <input type="radio" name="payment_method" id="transfer" defaultValue="TRANSFERENCIA" />
+                            </div>
+                            <div>
+                                <label htmlFor="paypal">Paypal</label>
+                                <input type="radio" name="payment_method" id="paypal" defaultValue="PAYPAL" />
+                            </div>
+                            <div>
+                                <label htmlFor="wallet">Wallet</label>
+                                <input type="radio" name="payment_method" id="wallet" defaultValue="WALLET" />
+                            </div>
+                        </article>
+                        <article>
+                            <input type="text" placeholder='Nombre del titular' />
+                            <input type="text" placeholder='Número de tarjeta' />
+                            <div>
+                                <input type="date" placeholder='Fecha de vencimiento' />
+                                <input type="number" placeholder='Código de seguridad' />
+                            </div>
+                        </article>
+                    </section>
+                    <section id="summary">
+                        <p>3. Resumen del pedido</p>
 
-                    <article id="user-data">
-                        <div>
-                            <label htmlFor="">Nombre usuario</label>
-                            <input type="text" defaultValue={userData.name} />
-                        </div>
-                        <div>
-                            <label htmlFor="">Correo electrónico</label>
-                            <input type="email" defaultValue={userData.email} />
-                        </div>
-                    </article>
+                        <article id="user-data">
+                            <div>
+                                <label htmlFor="">Nombre usuario</label>
+                                <input type="text" defaultValue={userData.name} />
+                            </div>
+                            <div>
+                                <label htmlFor="">Correo electrónico</label>
+                                <input type="email" defaultValue={userData.email} />
+                            </div>
+                        </article>
 
-                    <article id="package-data">
-                        <ul>
-                            <li>Tipo de hosting: {packageData.type}</li>
-                            <li>{packageData.storage}GB de almacenamiento</li>
-                            <li>{packageData.bandwidth}GB de ancho de banda</li>
-                            <li>{packageData.domains} dominios</li>
-                            <li>{packageData.databases} bases de datos</li>
-                            <li>¿CDN? {packageData.cdn ? "Sí" : "No"}</li>
-                            <li>¿Soporte 24h? {packageData.support ? "Sí" : "No"}</li>
-                        </ul>
-                        <div id="final-price">
-                            <label htmlFor="">Precio Final:  </label>
-                            <input type="text" value={packageData.price + "€"} />
-                        </div>
-                    </article>
-                </section>
-                <button type="button" onClick={handleSubmit}>¡Haz tu Sitio Realidad!</button>
-            </form>
-        </main>
+                        <article id="package-data">
+                            <ul>
+                                <li>Tipo de hosting: {packageData.type}</li>
+                                <li>{packageData.storage}GB de almacenamiento</li>
+                                <li>{packageData.bandwidth}GB de ancho de banda</li>
+                                <li>{packageData.domains} dominios</li>
+                                <li>{packageData.databases} bases de datos</li>
+                                <li>¿CDN? {packageData.cdn ? "Sí" : "No"}</li>
+                                <li>¿Soporte 24h? {packageData.support ? "Sí" : "No"}</li>
+                            </ul>
+                            <div id="final-price">
+                                <label htmlFor="">Precio Final:  </label>
+                                <input type="text" value={packageData.price + "€"} />
+                            </div>
+                        </article>
+                    </section>
+                    <button type="button" onClick={handleSubmit}>¡Haz tu Sitio Realidad!</button>
+                </form>
+            </main>
+            {responseData.status !== 0 && <ServerResponse responseStatus={responseData.status} response={responseData.response} />}
+        </>
     );
 };
 

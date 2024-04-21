@@ -18,8 +18,7 @@ public class HostingPackageRepository implements HostingPackageRepositoryInterfa
 	
 	@Override
 	public int createHostingPackage(HostingPackage hostingPackage) {
-		System.out.println("Paquete a insertar: " + hostingPackage);
-		int id_package=-1;
+		int id_pack=-1;
 		Session session = null;
 		Transaction transaction = null;
 
@@ -28,7 +27,7 @@ public class HostingPackageRepository implements HostingPackageRepositoryInterfa
 			transaction = session.beginTransaction();
 			session.persist(hostingPackage);
 			transaction.commit();
-			id_package=hostingPackage.getId_package();
+			id_pack=hostingPackage.getId_package();
 		} catch (Exception e) {
 			if (transaction != null) {
 				transaction.rollback();
@@ -37,7 +36,7 @@ public class HostingPackageRepository implements HostingPackageRepositoryInterfa
 			session.close();
 		}
 		
-		return id_package;
+		return id_pack;
 	}
 
 	@Override

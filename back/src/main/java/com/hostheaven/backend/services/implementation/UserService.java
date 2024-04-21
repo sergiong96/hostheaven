@@ -86,15 +86,15 @@ public class UserService implements UserServiceInterface {
 	}
 
 	@Override
-	public String changePassword(Map<String, String> passwordData) { //ok
+	public String changePassword(Map<String, String> passwordData) { // ok
 
 		User user = userRepository.getUserById(Integer.parseInt(passwordData.get("id_user")));
 		String hashedUserPassword = user.getPassword();
-		
+
 		String rawPasswordToVerificate = passwordData.get("actual_pass");
-		
+
 		String newPassword = passwordData.get("new_pass");
-		String newPasswordHash=securityService.generateHash(newPassword);
+		String newPasswordHash = securityService.generateHash(newPassword);
 
 		String response = "";
 
@@ -109,9 +109,20 @@ public class UserService implements UserServiceInterface {
 	}
 
 	@Override
-	public String deleteUserById(int id) {
-		String mensaje = this.userRepository.deleteUserById(id);
-		return mensaje;
-	}
+	public String deleteUser(int user_id, String rawPassword) {
 
+		String message = "";
+		User user = userRepository.getUserById(user_id);
+
+		if (user != null) {
+			String hashedUserPassword = user.getPassword();
+			message = securityService.verifyPassword(rawPassword, hashedUserPassword)
+					? this.userRepository.deleteUser(user)
+					: "La contraseña introducida no es correcta";
+		} else {
+			message = "Usuario no encontrado";
+		}
+
+		return message;
+	}
 }

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import './_User.scss';
 import { Link } from 'react-router-dom';
-import LogInForm from '../../LogInForm/LogInForm';
+import LogInForm from '../LogInForm/LogInForm';
 
 function User() {
 

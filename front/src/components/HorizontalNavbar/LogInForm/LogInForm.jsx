@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './_LogInForm.scss';
-import { logIn } from '../../services/UserService';
+import { logIn } from '../../../services/UserService';
 import { useNavigate } from 'react-router-dom';
 
 

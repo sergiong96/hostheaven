@@ -1,5 +1,5 @@
 import './_HorizontalNavbar.scss';
-import User from '../Header/User/User';
+import User from './User/User';
 import { Link } from 'react-router-dom';
 
 function HorizontalNavbar() {

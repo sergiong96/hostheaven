@@ -23,13 +23,12 @@ public interface UserServiceInterface {
 	// Actualiza los datos de un usuario (excepto su contraseña) y devuelve un String en función de si la
 	// operación ha tenido éxito o no
 	public String updateUser(User user);
-
-	// Elimina un usuario según su identificador y devuelve un String en función de
-	// si la operación ha tenido éxito o no
-	public String deleteUserById(int id);
 	
 	// Cambia la contraseña de un usuario
 	public String changePassword(Map<String, String> password);
 	
-
+	// Elimina un usuario según su identificador y devuelve un String en función de
+	// si la operación ha tenido éxito o no
+	public String deleteUser(int user_id, String rawPassword);
+	
 }

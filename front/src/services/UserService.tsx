@@ -59,7 +59,17 @@ export const updateData = (userData: any) => {
             },
             body: JSON.stringify(userData)
         }).then((response) => {
-            resolve(response);
+            if (response.ok) {
+                resolve(response);
+            } else {
+                response.json().then((errorData) => {
+                    throw new Error(errorData.response);
+                }).catch((error) => {
+                    reject(error.response);
+                });
+            }
+        }).catch((error) => {
+            reject("Error en la solicitud "+error);
         })
     })
 }
@@ -79,4 +89,19 @@ export const changePassword = (passwordObj: any) => {
         })
     })
 
+}
+
+
+export const deleteUser = (user_id: any, password: any) => {
+    return new Promise((resolve, reject) => {
+        fetch(DOMAIN_NAME + `users/delete/${user_id}`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: password
+        }).then((response) => {
+            resolve(response);
+        })
+    });
 }

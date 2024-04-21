@@ -1,13 +1,11 @@
 package com.hostheaven.backend.controllers;
 
 import java.util.Map;
-
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,22 +43,25 @@ public class UserController {
 
 	@PostMapping("/updateUser") // ok
 	public ResponseEntity<String> updateUser(@RequestBody User user) {
-		String mensaje = userService.updateUser(user);
+		String response = userService.updateUser(user);
 		JSONObject responseJson = new JSONObject();
-		responseJson.put("mensaje", mensaje);
+		responseJson.put("response", response);
 		return new ResponseEntity<String>(responseJson.toString(), HttpStatus.OK);
 	}
 
-	@PostMapping("/changePassword")
-	public ResponseEntity<String> changePassword(@RequestBody Map<String, String> passwordData) { //ok
-		String mensaje = userService.changePassword(passwordData);
+	@PostMapping("/changePassword") //ok
+	public ResponseEntity<String> changePassword(@RequestBody Map<String, String> passwordData) { 
+		String response = userService.changePassword(passwordData);
 		JSONObject responseJson = new JSONObject();
-		responseJson.put("mensaje", mensaje);
+		responseJson.put("response", response);
 		return new ResponseEntity<String>(responseJson.toString(), HttpStatus.OK);
 	}
 
-	@DeleteMapping("/delete/{id}")
-	public void deleteUser(@PathVariable int id) {
-		userService.deleteUserById(id);
+	@PostMapping("/delete/{user_id}")
+	public ResponseEntity<String> deleteUser(@PathVariable int user_id, @RequestBody String password) {
+		String response=userService.deleteUser(user_id, password);
+		JSONObject responseJson = new JSONObject();
+		responseJson.put("response", response);
+		return new ResponseEntity<String>(responseJson.toString(), HttpStatus.OK);
 	}
 }

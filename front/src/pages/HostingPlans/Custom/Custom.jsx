@@ -170,10 +170,6 @@ function Custom() {
         }
 
 
-
-        // Pasarle los datos del paquete a payment en el mismo formato que los estandar
-        // IMPORTANTE pasarle que es custom, pues es la señal que indicara que tengo que insertar 
-        // el apquete en la tabla de hostingpackages antes de insertar en la tabla trades
     }
 
     return (

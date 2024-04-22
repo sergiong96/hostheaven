@@ -2,10 +2,15 @@ import { useEffect, useState } from 'react';
 import './_ServerResponse.scss';
 
 
-function ServerResponse({ responseStatus, response }) {
+interface serverResponseProps {
+    responseStatus: number;
+    response: string;
+}
 
-    const [bgColor, setbgColor] = useState("white");
-    const [isVisible, setIsVisible] = useState(true);
+function ServerResponse({ responseStatus, response }: serverResponseProps) {
+
+    const [bgColor, setbgColor] = useState<string>("white");
+    const [isVisible, setIsVisible] = useState<boolean>(true);
 
     useEffect(() => {
         if (responseStatus >= 100 && responseStatus <= 199) {
@@ -21,7 +26,7 @@ function ServerResponse({ responseStatus, response }) {
         }
 
 
-        const timer = setTimeout(() => {
+        const timer: NodeJS.Timeout = setTimeout(() => {
             setIsVisible(false);
         }, 3000);
 

@@ -1,6 +1,13 @@
 import './_ConceptView.scss';
 
-function ConceptView({ concept }) {
+
+interface Concept {
+    id_concept: number;
+    concept_name: string;
+    description: string;
+}
+
+function ConceptView({ concept }: { concept: Concept | null }) {
 
     return concept && Object.keys(concept).length > 0 ? (
         <div className="concept-description">

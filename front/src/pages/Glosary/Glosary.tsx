@@ -5,24 +5,36 @@ import ConceptView from './ConceptView/ConceptView';
 import { getAllConcepts } from '../../services/GlosaryService';
 import { useEffect, useState } from 'react';
 
+
+interface Concept {
+    id_concept: number;
+    concept_name: string;
+    description: string;
+}
+
+
+
 function Glosary() {
 
-    const [concepts, setConcepts] = useState([]);
-    const [seeConcept, setSeeConcept] = useState({});
+    const [concepts, setConcepts] = useState<Concept[]>([]);
+    const [seeConcept, setSeeConcept] = useState<Concept | null>(null);
 
     useEffect(() => {
-        getAllConcepts().then((res) => {
+        getAllConcepts().then((res: Response) => {
             return res.json();
-        }).then((data) => {
+        }).then((data: Concept[]) => {
             setConcepts(data);
         })
     }, []);
 
 
 
-    const handleClick = (event) => {
-        const selectedConcept = concepts.find(concept => parseInt(concept.id_concept) === parseInt(event.target.id))
-        setSeeConcept(selectedConcept);
+    const handleClick = (event: React.MouseEvent<HTMLLIElement>) => {
+        const selectedConcept = concepts.find(concept => concept.id_concept === parseInt(event.currentTarget.id))
+        if (selectedConcept) {
+            setSeeConcept(selectedConcept);
+        }
+
     }
 
 
@@ -35,7 +47,7 @@ function Glosary() {
                 <aside id="concept-names-container">
                     <ul>
                         {concepts.map((concept) => (
-                            <li key={concept.id_concept} id={concept.id_concept} onClick={handleClick}>{concept.concept_name}</li>
+                            <li key={concept.id_concept} id={concept.id_concept.toString()} onClick={handleClick}>{concept.concept_name}</li>
                         ))
                         }
                     </ul>

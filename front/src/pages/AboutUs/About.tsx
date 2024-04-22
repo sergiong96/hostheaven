@@ -4,16 +4,16 @@ import Footer from '../../components/Footer/Footer';
 
 function AboutUs() {
 
-    const imgUrl = require('../../assets/images/aboutCompany.jpg');
-    const team1 = require('../../assets/images/romb1.png');
-    const team2 = require('../../assets/images/romb2.png');
-    const team3 = require('../../assets/images/romb3.png');
-    const team4 = require('../../assets/images/romb4.png');
-    const team5 = require('../../assets/images/romb5.png');
-    const team6 = require('../../assets/images/romb6.png');
-    const team7 = require('../../assets/images/romb7.png');
-    const team8 = require('../../assets/images/romb8.png');
-    const team9 = require('../../assets/images/romb9.png');
+    const imgUrl: string = require('../../assets/images/aboutCompany.jpg');
+    const team1: string = require('../../assets/images/romb1.png');
+    const team2: string = require('../../assets/images/romb2.png');
+    const team3: string = require('../../assets/images/romb3.png');
+    const team4: string = require('../../assets/images/romb4.png');
+    const team5: string = require('../../assets/images/romb5.png');
+    const team6: string = require('../../assets/images/romb6.png');
+    const team7: string = require('../../assets/images/romb7.png');
+    const team8: string = require('../../assets/images/romb8.png');
+    const team9: string = require('../../assets/images/romb9.png');
 
 
     return (

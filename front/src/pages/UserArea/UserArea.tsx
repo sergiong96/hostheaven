@@ -1,49 +1,79 @@
 import './_UserArea.scss';
 import { useEffect, useState } from 'react';
-import { ENDPOINTS } from '../../services/VirtualminService';
+import fetchEndpoints from '../../services/VirtualminService';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import { getUserData, updateData, changePassword } from '../../services/UserService';
-import { jwtDecode } from 'jwt-decode';
-import { useNavigate } from 'react-router-dom';
+import { JwtPayload, jwtDecode } from 'jwt-decode';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 import DeleteUserForm from './DeleteUserForm/DeleteUserForm';
 import ServerResponse from '../../components/ServerResponse/ServerResponse';
 
+interface UserData {
+    id_user: number;
+    name: string;
+    surname: string;
+    email: string;
+    password: string;
+    payment_method: string;
+    payment_reference: string | null
+}
+
+interface PasswordData {
+    id_user: number;
+    actual_pass: string;
+    new_pass: string;
+    new_pass_rep: string;
+}
+
+interface ResponseData {
+    status: number;
+    response: string;
+}
 
 function UserArea() {
 
-    const [showContent, setShowContent] = useState("user-data");
-    const [links, setLink] = useState([]);
-    const [showErrorMessage, setShowErrorMessage] = useState(false);
-    const [userID, setUserID] = useState(-1);
-    const [userData, setUserData] = useState({});
-    const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const [newPassword, setNewPassword] = useState({
+    const [showContent, setShowContent] = useState<string>("user-data");
+    const [links, setLink] = useState<any[]>([]);
+    const [showErrorMessage, setShowErrorMessage] = useState<boolean>(false);
+    const [userID, setUserID] = useState<number>(-1);
+    const [userData, setUserData] = useState<UserData>({
+        id_user: 0,
+        name: "",
+        surname: "",
+        email: "",
+        password: "",
+        payment_method: "",
+        payment_reference: ""
+    });
+    const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+    const [newPassword, setNewPassword] = useState<PasswordData>({
         id_user: -1,
         actual_pass: "",
         new_pass: "",
         new_pass_rep: ""
     });
-    const [responseData, setResponseData] = useState({
+    const [responseData, setResponseData] = useState<ResponseData>({
         status: 0,
         response: ""
     });
 
-    const navigate = useNavigate();
+    const navigate: NavigateFunction = useNavigate();
 
     useEffect(() => {
         const token = localStorage.getItem("sessionToken");
 
         if (token) {
-            const decodifiedToken = jwtDecode(token);
-            setUserID(parseInt(decodifiedToken.sub));
+            const decodifiedToken: JwtPayload = jwtDecode(token);
+            const id_user: number = parseInt(decodifiedToken.sub || "-1");
+            setUserID(id_user);
         }
     }, []);
 
 
     useEffect(() => {
         if (userID !== -1) {
-            getUserData(userID).then((res) => {
+            getUserData(userID).then((res: Response) => {
                 return res.json()
             }).then((data) => {
                 setUserData(data);
@@ -59,27 +89,23 @@ function UserArea() {
 
     //Llamada a servicio para obtener los datos del paquete de hosting contratado.
 
-    const openTab = (tab) => {
+    const openTab = (tab: string) => {
         setShowContent(tab);
     }
 
 
-    const getLinks = () => {
-        if (ENDPOINTS.length > 0 && links.length <= 0) {
-            const parsedLinks = ENDPOINTS.map(endpoint => JSON.parse(endpoint));
-            setLink(parsedLinks);
-            setShowErrorMessage(false);
-        } else if (ENDPOINTS.length <= 0) {
-            setShowErrorMessage(true);
-        }
+    const getLinks = () => { //CAMBIAR LA FORMA EN LA QUE OBTENGO LOS LINKS
+        // if (ENDPOINTS.length > 0 && links.length <= 0) {
+        //     const parsedLinks = ENDPOINTS.map(endpoint => JSON.parse(endpoint));
+        //     setLink(parsedLinks);
+        //     setShowErrorMessage(false);
+        // } else if (ENDPOINTS.length <= 0) {
+        //     setShowErrorMessage(true);
+        // }
     }
 
-    const closeSession = () => { //SACAR DE AQUÍ Y PONER EL BOTÓN QUE HAGA ESTO EN EL USER DEL NAVBAR
-        localStorage.removeItem("sessionToken");
-        navigate("/");
-    }
 
-    const handleChangeUserData = (event) => {
+    const handleChangeUserData = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
         setUserData({
             ...userData,
@@ -97,33 +123,33 @@ function UserArea() {
         setShowDeleteModal(false);
     }
 
-    const handleSubmitUserData = (event) => {
+    const handleSubmitUserData = (event: React.FormEvent) => {
         event.preventDefault();
         let resStatus = 0;
 
         setResponseData({
-            status: parseInt(resStatus),
+            status: resStatus,
             response: ""
         });
 
-        updateData(userData).then((res) => {
+        updateData(userData).then((res: Response) => {
             resStatus = res.status;
             return res.json();
         }).then((data) => {
             setResponseData({
-                status: parseInt(resStatus),
+                status: resStatus,
                 response: data.response
             });
         }).catch((error) => {
             setResponseData({
-                status: parseInt(resStatus),
+                status: resStatus,
                 response: error
             });
         })
 
     }
 
-    const handleChangePassword = (event) => {
+    const handleChangePassword = (event:React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
         setNewPassword({
             ...newPassword,
@@ -131,7 +157,7 @@ function UserArea() {
         })
     }
 
-    const handleSubmitPassword = (event) => {
+    const handleSubmitPassword = (event:React.FormEvent) => {
 
         event.preventDefault();
         if (newPassword.new_pass !== newPassword.new_pass_rep) {
@@ -140,15 +166,15 @@ function UserArea() {
             let resStatus = 0;
 
             setResponseData({
-                status: parseInt(resStatus),
+                status: resStatus,
                 response: ""
             });
-            changePassword(newPassword).then((res) => {
+            changePassword(newPassword).then((res:Response) => {
                 resStatus = res.status;
                 return res.json();
             }).then((data) => {
                 setResponseData({
-                    status: parseInt(resStatus),
+                    status: resStatus,
                     response: data.response
                 });
             })

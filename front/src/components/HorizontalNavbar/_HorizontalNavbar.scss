@@ -22,49 +22,6 @@
         display: flex;
         gap: 4rem;
 
-        >li:has(ul) {
-
-            ul.inner-list {
-                display: none;
-                position: absolute;
-                flex-direction: column;
-                gap: 1rem;
-                background-color: vars.$background-white;
-                padding: 1rem;
-                list-style-type: none;
-
-                >li {
-                    list-style-type: none;
-                    cursor: pointer;
-                    position: relative;
-
-                    &::before {
-                        content: "";
-                        display: block;
-                        position: absolute;
-                        top: 1.2rem;
-                        height: 2px;
-                        width: 0;
-                        background-color: vars.$strong-red;
-                        z-index: 9999;
-                        transition: width 800ms;
-                    }
-
-                    &:hover::before {
-                        width: 100%;
-                        transition: width 800ms;
-                    }
-
-
-                }
-            }
-
-            &:hover ul {
-                display: flex;
-            }
-
-        }
-
 
         >li {
             list-style-type: none;

@@ -3,15 +3,28 @@ import ServerResponse from '../../../components/ServerResponse/ServerResponse';
 import { useState, useEffect } from 'react';
 import { deleteUser } from '../../../services/UserService';
 
+interface ResponseData {
+    status: number;
+    response: string;
+}
 
+interface DeleteData {
+    user_id: number;
+    password: string;
+}
 
-function DeleteUserForm({ user_id, onClose }) {
-    const [responseData, setResponseData] = useState({
+interface DeleteUserFormProps {
+    user_id: number;
+    onClose: () => void;
+}
+
+function DeleteUserForm({ user_id, onClose }: DeleteUserFormProps) {
+    const [responseData, setResponseData] = useState<ResponseData>({
         status: 0,
         response: ""
     });
 
-    const [deleteData, setDeleteData] = useState({
+    const [deleteData, setDeleteData] = useState<DeleteData>({
         user_id: user_id,
         password: ""
     })
@@ -22,29 +35,34 @@ function DeleteUserForm({ user_id, onClose }) {
 
 
     const showDialog = () => {
-        const dialog = document.querySelector("dialog#delete-dialog");
-        dialog.showModal();
+        const dialog: HTMLDialogElement | null = document.querySelector("dialog#delete-dialog");
+        if (dialog) {
+            dialog.showModal();
+        }
+
     }
 
     const closeDialog = () => {
-        const dialog = document.querySelector("dialog#delete-dialog");
-        dialog.close();
-        onClose();
+        const dialog: HTMLDialogElement | null = document.querySelector("dialog#delete-dialog");
+        if (dialog) {
+            dialog.close();
+            onClose();
+        }
     }
 
-    const handleChangePass = (event) => {
+    const handleChangePass = (event: React.ChangeEvent<HTMLInputElement>) => {
         setDeleteData({
             ...deleteData,
             password: event.target.value
         })
     }
 
-    const handleSubmitRemove = (event) => {
+    const handleSubmitRemove = (event: React.FormEvent) => {
         event.preventDefault();
 
         let resStatus = 0;
         setResponseData({
-            status: parseInt(resStatus),
+            status: resStatus,
             response: ""
         });
 
@@ -54,7 +72,7 @@ function DeleteUserForm({ user_id, onClose }) {
         }).then((data) => {
             console.log(data)
             setResponseData({
-                status: parseInt(resStatus),
+                status: resStatus,
                 response: data.response
             });
         })

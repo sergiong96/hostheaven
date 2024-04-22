@@ -1,36 +1,64 @@
 import { useEffect, useState } from 'react';
 import './_Payment.scss';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode';
+import { NavigateFunction, useLocation, useNavigate } from 'react-router-dom';
+import { JwtPayload, jwtDecode } from 'jwt-decode';
 import { createTransaction } from '../../services/TradeService';
 import ServerResponse from '../../components/ServerResponse/ServerResponse';
+interface ResponseData {
+    status: number;
+    response: string;
+}
+interface UserData {
+    user_id: number;
+    name: string;
+    surname: string;
+    email: string;
+    password: string;
+    payment_method: string;
+    payment_reference: string | null
+}
+
 
 function Payment() {
 
     const location = useLocation();
-    const navigate = useNavigate();
-    const [packageData, setPackageData] = useState({});
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [userData, setUserData] = useState({});
-    const [responseData, setResponseData] = useState({
+    const navigate: NavigateFunction = useNavigate();
+    const [packageData, setPackageData] = useState<any>({});
+
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+    const [userData, setUserData] = useState<UserData>({
+        user_id: 0,
+        name: "",
+        surname: "",
+        email: "",
+        password: "",
+        payment_method: "",
+        payment_reference: ""
+    });
+    const [responseData, setResponseData] = useState<ResponseData>({
         status: 0,
         response: ""
     });
 
     useEffect(() => {
-        const token = localStorage.getItem("sessionToken");
+        const token: string | null = localStorage.getItem("sessionToken");
 
         if (token) {
-            const decodedToken = jwtDecode(token);
-            const user_id = decodedToken.sub;
-            const email = decodedToken.email;
-            const name = decodedToken.name;
+            const decodedToken: any = jwtDecode(token);
+            const user_id: number = parseInt(decodedToken.sub || "0");
+            const email: string = decodedToken.email;
+            const name: string = decodedToken.name;
 
             setIsLoggedIn(true);
             setUserData({
                 user_id: user_id,
                 name: name,
-                email: email
+                email: email,
+                surname: "",
+                password: "",
+                payment_method: "",
+                payment_reference: ""
+
             });
         } else {
             navigate("/");
@@ -43,20 +71,19 @@ function Payment() {
 
 
     const handleSubmit = () => {
-        const paymentSelected = document.querySelector("#payment-method input[type=radio]:checked").value;
-        const selectedPeriod = parseInt(document.querySelector("#period input[type=radio]:checked").value);
-        const startDate = new Date();
-        const startDateFormat = `${startDate.getFullYear()}-${(startDate.getMonth() + 1).toString().padStart(2, '0')}-${startDate.getDate().toString().padStart(2, '0')}`;
+        const paymentSelected: string = (document.querySelector("#payment-method input[type=radio]:checked") as HTMLInputElement).value;
+        const selectedPeriod: number = parseInt((document.querySelector("#period input[type=radio]:checked") as HTMLInputElement).value);
+        const startDate: Date = new Date();
+        const startDateFormat: string = `${startDate.getFullYear()}-${(startDate.getMonth() + 1).toString().padStart(2, '0')}-${startDate.getDate().toString().padStart(2, '0')}`;
         const endDate = new Date(startDate);
         endDate.setMonth(startDate.getMonth() + selectedPeriod);
-        const endDateFormat = `${endDate.getFullYear()}-${(endDate.getMonth() + 1).toString().padStart(2, '0')}-${endDate.getDate().toString().padStart(2, '0')}`;
-        const finalPrice = document.querySelector("#period>article>div:has(input[type=radio]:checked) span input[name=final-amount]").value;
+        const endDateFormat: string = `${endDate.getFullYear()}-${(endDate.getMonth() + 1).toString().padStart(2, '0')}-${endDate.getDate().toString().padStart(2, '0')}`;
+        const finalPrice: string = (document.querySelector("#period>article>div:has(input[type=radio]:checked) span input[name=final-amount]") as HTMLInputElement).value;
         let dataObject = {};
 
         if (packageData.custom) {
             // Para paquetes custom
             dataObject = {
-                package_name: packageData.package_name,
                 id_user: userData.user_id,
                 package_price: finalPrice,
                 date_start: startDateFormat,
@@ -94,17 +121,17 @@ function Payment() {
         let resStatus = 0;
 
         setResponseData({
-            status: parseInt(resStatus),
+            status: resStatus,
             response: ""
         });
 
         createTransaction(dataObject).then((res) => {
-            resStatus=res.status;
+            resStatus = res.status;
             return res.json();
         }).then((data) => {
             console.log(data)
             setResponseData({
-                status: parseInt(resStatus),
+                status: resStatus,
                 response: data.response
             });
             setTimeout(() => {
@@ -116,13 +143,23 @@ function Payment() {
     }
 
 
-    const selectRadio = (event) => {
-        const element = event.target;
-        element.nodeName === "INPUT" ? element.checked = true : element.querySelector("input[type=radio]").checked = true;
+    const selectRadio = (event: React.MouseEvent<HTMLInputElement>) => {
+        const element = event.target as HTMLInputElement;
+        if (element.nodeName === "INPUT") {
+            element.checked = true;
+        } else {
+            const radioInput = element.querySelector("input[type=radio]") as HTMLInputElement;
+            if (radioInput) {
+                radioInput.checked = true;
+            }
+        }
 
-        const finalPrice = element.nextElementSibling.querySelector("input[name=final-amount]").value;
-        const finalPriceSummary = document.querySelector("#summary #package-data #final-price input[type=text]");
-        finalPriceSummary.value = finalPrice + "€";
+        const finalPrice = ((element.nextElementSibling as HTMLElement).querySelector("input[name=final-amount]") as HTMLInputElement).value;
+        const finalPriceSummary = document.querySelector("#summary #package-data #final-price input[type=text]") as HTMLInputElement;
+        if (finalPriceSummary) {
+            finalPriceSummary.value = finalPrice + "€";
+        }
+
 
     }
 

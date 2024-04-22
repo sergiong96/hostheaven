@@ -2,7 +2,7 @@ import './_ContactHome.scss';
 
 function ContactHome() {
 
-    const imgContact = require("../../../assets/images/contactHome.png");
+    const imgContact: string = require("../../../assets/images/contactHome.png");
 
     return (
         <section id="contact-home-container">

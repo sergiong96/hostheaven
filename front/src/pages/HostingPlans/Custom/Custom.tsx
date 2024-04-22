@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import './_Custom.scss';
-import { useNavigate } from 'react-router';
+import { useNavigate, NavigateFunction } from 'react-router';
 
 function Custom() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const navigate = useNavigate();
-    const hash = window.location.hash;
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+    const navigate: NavigateFunction = useNavigate();
+    const hash: string = window.location.hash;
 
     useEffect(() => {
-        const token = localStorage.getItem("sessionToken");
+        const token: string | null = localStorage.getItem("sessionToken");
 
         if (token) {
             setIsLoggedIn(true);
@@ -17,27 +17,29 @@ function Custom() {
 
     useEffect(() => {
         if (hash) {
-            const fragment = document.querySelector(hash);
-            fragment.scrollIntoView();
+            const fragment: Element | null = document.querySelector(hash);
+            if (fragment) {
+                fragment.scrollIntoView();
+            }
         }
     }, [hash]);
 
 
     // Funcion para calcular el precio del paquete en tiempo real
-    const setPrice = (app_install, databases, domains, email_accounts, hosting_type, migration, bandwidth, storage, support) => {
+    const setPrice = (app_install: string, databases: number, domains: number, email_accounts: number, hosting_type: string, migration: string, bandwidth: number, storage: number, support: string): number => {
 
         // Parseo del tipo de los datos y se evitan los negativos
-        let app_install_parsed = app_install.toLowerCase() === "yes" ? true : false;
-        let databases_parsed = parseInt(databases < 0 ? 0 : databases);
-        let domains_parsed = parseInt(domains < 0 ? 0 : domains);
-        let email_accounts_parsed = parseInt(email_accounts < 0 ? 0 : email_accounts);
-        let hosting_type_parsed = hosting_type.toUpperCase();
-        let migration_parsed = migration.toLowerCase() === "yes" ? true : false;
-        let bandwidth_parsed = parseInt(bandwidth < 0 ? 0 : bandwidth);
-        let storage_parsed = parseInt(storage < 0 ? 0 : storage);
-        let support_parsed = support.toLowerCase() === "yes" ? true : false;
+        let app_install_parsed: boolean = app_install.toLowerCase() === "yes" ? true : false;
+        let databases_parsed: number = databases < 0 ? 0 : databases;
+        let domains_parsed: number = domains < 0 ? 0 : domains;
+        let email_accounts_parsed: number = email_accounts < 0 ? 0 : email_accounts;
+        let hosting_type_parsed: string = hosting_type.toUpperCase();
+        let migration_parsed: boolean = migration.toLowerCase() === "yes" ? true : false;
+        let bandwidth_parsed: number = bandwidth < 0 ? 0 : bandwidth;
+        let storage_parsed: number = storage < 0 ? 0 : storage;
+        let support_parsed: boolean = support.toLowerCase() === "yes" ? true : false;
 
-        let precio_final = 0.0;
+        let precio_final: number = 0.0;
 
         // Instalador de app
         if (app_install_parsed) {
@@ -129,41 +131,48 @@ function Custom() {
         }
 
 
-        return parseFloat(precio_final);
+        return precio_final;
     }
 
     const handleChange = () => {
 
-        const priceTarget = document.querySelector("div.final-price input#price");
-        const form = document.querySelector("#custom-creator-form");
+        const priceTarget: HTMLInputElement | null = document.querySelector("div.final-price input#price");
+        const form: HTMLFormElement | null = document.querySelector("#custom-creator-form");
+        if (form) {
+            const formData: FormData = new FormData(form);
+            const appInstall: string = (formData.get("app_installation") as string) ?? "false";
+            const databases: number = parseInt(formData.get("databases") as string || "0");
+            const domains: number = parseInt(formData.get("domains") as string || "0");
+            const email: number = parseInt(formData.get("email_account") as string || "0");
+            const type: string = (formData.get("type") as string) ?? "false";
+            const migration: string = (formData.get("migration") as string) ?? "false";
+            const bandwidth: number = parseInt(formData.get("bandwidth") as string || "0");
+            const storage: number = parseInt(formData.get("storage") as string || "0");
+            const support: string = (formData.get("technical_support_24h") as string) ?? "false";
+            let priceUpdate: number = 0;
 
-        const formData = new FormData(form);
-        const appInstall = formData.get("app_installation") ?? "no";
-        const databases = formData.get("databases") ?? 0;
-        const domains = formData.get("domains") ?? 0;
-        const email = formData.get("email_account") ?? 0;
-        const type = formData.get("type") ?? "no";
-        const migration = formData.get("migration") ?? "no";
-        const bandwidth = formData.get("bandwidth") ?? 0;
-        const storage = formData.get("storage") ?? 0;
-        const support = formData.get("technical_support_24h") ?? "no";
-        let priceUpdate = 0;
+            priceUpdate = setPrice(appInstall, databases, domains, email, type, migration, bandwidth, storage, support);
 
-        priceUpdate = setPrice(appInstall, databases, domains, email, type, migration, bandwidth, storage, support);
-        priceTarget.value = priceUpdate;
+            if (priceTarget) {
+                priceTarget.value = priceUpdate.toString();
+            }
+
+        }
+
     }
 
 
-    const handleSubmit = (event) => {
+    const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
         if (!isLoggedIn) {
             alert("Necesita autenticarse antes de contratar cualquier servicio");
         } else {
-            const formData = new FormData(event.target);
-            let packageData = {};
+            const form: HTMLFormElement = event.currentTarget as HTMLFormElement;
+            const formData = new FormData(form);
+            let packageData: { [key: string]: string } = {};
 
             formData.forEach((value, key) => {
-                packageData[key] = value;
+                packageData[key] = value as string;
             });
 
             navigate("/payment", { state: { packageData: packageData } });

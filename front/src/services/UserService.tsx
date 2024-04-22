@@ -1,7 +1,7 @@
 import { DOMAIN_NAME } from "../constants";
 
 
-export const signIn = (formData: any) => {
+export const signIn = (formData: any): Promise<Response> => {
 
     return new Promise((resolve, reject) => {
         fetch(DOMAIN_NAME + "users/signIn", {
@@ -18,7 +18,7 @@ export const signIn = (formData: any) => {
 }
 
 
-export const getUserData = (user_id: Number) => {
+export const getUserData = (user_id: number): Promise<Response> => {
 
     return new Promise((resolve, reject) => {
         fetch(DOMAIN_NAME + `users/getUser/${user_id}`, {
@@ -33,7 +33,7 @@ export const getUserData = (user_id: Number) => {
 }
 
 
-export const logIn = (credentials: string) => {
+export const logIn = (credentials: any): Promise<Response> => {
 
     return new Promise((resolve, reject) => {
         fetch(DOMAIN_NAME + "users/logIn", {
@@ -49,7 +49,7 @@ export const logIn = (credentials: string) => {
 }
 
 
-export const updateData = (userData: any) => {
+export const updateData = (userData: any): Promise<Response> => {
 
     return new Promise((resolve, reject) => {
         fetch(DOMAIN_NAME + "users/updateUser", {
@@ -69,13 +69,13 @@ export const updateData = (userData: any) => {
                 });
             }
         }).catch((error) => {
-            reject("Error en la solicitud "+error);
+            reject("Error en la solicitud " + error);
         })
     })
 }
 
 
-export const changePassword = (passwordObj: any) => {
+export const changePassword = (passwordObj: any): Promise<Response> => {
 
     return new Promise((resolve, reject) => {
         fetch(DOMAIN_NAME + "users/changePassword", {
@@ -92,7 +92,7 @@ export const changePassword = (passwordObj: any) => {
 }
 
 
-export const deleteUser = (user_id: any, password: any) => {
+export const deleteUser = (user_id: number, password: string): Promise<Response> => {
     return new Promise((resolve, reject) => {
         fetch(DOMAIN_NAME + `users/delete/${user_id}`, {
             method: "POST",

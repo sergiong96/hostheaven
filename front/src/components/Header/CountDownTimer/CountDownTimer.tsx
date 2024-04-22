@@ -3,7 +3,7 @@ import './_CountDownTimer.scss';
 
 function CountDownTimer() {
 
-    const [counter, setCounter] = useState(66666666);
+    const [counter, setCounter] = useState<number>(66666666);
 
     useEffect(() => {
         let timer: NodeJS.Timer | undefined;
@@ -26,7 +26,7 @@ function CountDownTimer() {
 }
 
 
-function formatDate(time: number) {
+function formatDate(time: number): string {
     const hours = Math.floor(time / 3600000);
     const minutes = Math.floor((time % 3600000) / 60000);
     const seconds = Math.floor((time % 60000) / 1000);

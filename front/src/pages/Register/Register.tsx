@@ -7,33 +7,33 @@ import { signIn } from '../../services/UserService';
 
 function Register() {
 
-    const imgRegister = require("../../assets/images/register.jpeg");
+    const imgRegister:string = require("../../assets/images/register.jpeg");
 
-    const [paymentSelected, isPaymentSelected] = useState(false);
+    const [paymentSelected, isPaymentSelected] = useState<boolean>(false);
 
 
 
-    const handlePaymentSelected = (event) => {
+    const handlePaymentSelected = (event:React.ChangeEvent<HTMLSelectElement>) => {
         let selectedOption = event.target.value;
         selectedOption !== "false" ? isPaymentSelected(true) : isPaymentSelected(false);
     }
 
 
-    const getFormData = (form) => {
+    const getFormData = (form: HTMLFormElement) => {
         const formData = new FormData(form);
-        const formObject = {};
+        const formObject:{[key:string]:string} = {};
 
         formData.forEach((value, key) => {
-            formObject[key] = value;
+            formObject[key] = value as string;
         });
 
         return formObject;
     }
 
 
-    async function HandleSubmit(event) {
+    async function HandleSubmit(event: React.FormEvent) {
         event.preventDefault();
-        const formData = getFormData(event.target);
+        const formData = getFormData(event.target as HTMLFormElement);
 
         signIn(formData).then((data) => {
             console.log(data);

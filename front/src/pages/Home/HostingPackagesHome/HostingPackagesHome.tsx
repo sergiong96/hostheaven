@@ -65,6 +65,7 @@ function HostingPackagesHome() {
             alert("Necesita autenticarse antes de contratar cualquier servicio");
         } else {
             const packageData = getPackageData(event.currentTarget);
+            console.log(packageData)
             navigate("/payment", { state: { packageData: packageData } });
         }
     }
@@ -101,6 +102,8 @@ function HostingPackagesHome() {
                             packageData[name] = value === "true";
                         } else if (name === "hosting_type") {
                             packageData[name] = value;
+                        } else if (name === "databases" || name === "domains" || name === "monthly_bandwidth" || name === "storage") {
+                            packageData[name] = parseInt(value);
                         }
                     }
 
@@ -138,7 +141,7 @@ function HostingPackagesHome() {
                                 <li data-name="storage" data-value={data.storage}><strong>Almacenamiento</strong>: {data.storage}GB</li>
                                 <li data-name="domains" data-value={data.domains}><strong>Dominios:</strong> {data.domains}</li>
                                 <li data-name="type" data-value={data.hosting_type}><strong>Tipo de hosting:</strong> {data.hosting_type}</li>
-                                <li data-name="bandwidth" data-value={data.monthly_bandwidth}><strong>Ancho de banda:</strong> {data.monthly_bandwidth + "GB"}</li>
+                                <li data-name="monthly_bandwidth" data-value={data.monthly_bandwidth}><strong>Ancho de banda:</strong> {data.monthly_bandwidth + "GB"}</li>
                                 <li data-name="databases" data-value={data.databases}><strong>Bases de datos:</strong> {data.databases}</li>
                                 <li data-name="cdn" data-value={data.cdn ? 'true' : 'false'}><strong>CDN:</strong> {data.cdn ? <i className="fa-solid fa-check" style={{ color: 'springgreen' }}></i> : <i className="fa-solid fa-xmark" style={{ color: 'red' }}></i>}</li>
                                 <li data-name="ssl" data-value={data.ssl ? 'true' : 'false'}><strong>SSL:</strong> {data.ssl ? <i className="fa-solid fa-check" style={{ color: 'springgreen' }}></i> : <i className="fa-solid fa-xmark" style={{ color: 'red' }}></i>}</li>

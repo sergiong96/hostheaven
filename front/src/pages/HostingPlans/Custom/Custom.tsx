@@ -2,6 +2,23 @@ import { useState, useEffect } from 'react';
 import './_Custom.scss';
 import { useNavigate, NavigateFunction } from 'react-router';
 
+interface PackageData {
+    app_installation: boolean;
+    monthly_bandwidth: number;
+    domains: number;
+    hosting_type: string;
+    databases: number;
+    cdn: boolean;
+    ssl: boolean;
+    technical_support_24h: boolean;
+    package_price: number;
+    email_account: number;
+    ftp_server: boolean;
+    migration: boolean;
+    custom: boolean;
+    storage: number;
+}
+
 function Custom() {
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
     const navigate: NavigateFunction = useNavigate();
@@ -29,15 +46,15 @@ function Custom() {
     const setPrice = (app_install: string, databases: number, domains: number, email_accounts: number, hosting_type: string, migration: string, bandwidth: number, storage: number, support: string): number => {
 
         // Parseo del tipo de los datos y se evitan los negativos
-        let app_install_parsed: boolean = app_install.toLowerCase() === "yes" ? true : false;
+        let app_install_parsed: boolean = app_install.toLowerCase() === "true" ? true : false;
         let databases_parsed: number = databases < 0 ? 0 : databases;
         let domains_parsed: number = domains < 0 ? 0 : domains;
         let email_accounts_parsed: number = email_accounts < 0 ? 0 : email_accounts;
         let hosting_type_parsed: string = hosting_type.toUpperCase();
-        let migration_parsed: boolean = migration.toLowerCase() === "yes" ? true : false;
+        let migration_parsed: boolean = migration.toLowerCase() === "true" ? true : false;
         let bandwidth_parsed: number = bandwidth < 0 ? 0 : bandwidth;
         let storage_parsed: number = storage < 0 ? 0 : storage;
-        let support_parsed: boolean = support.toLowerCase() === "yes" ? true : false;
+        let support_parsed: boolean = support.toLowerCase() === "true" ? true : false;
 
         let precio_final: number = 0.0;
 
@@ -144,9 +161,9 @@ function Custom() {
             const databases: number = parseInt(formData.get("databases") as string || "0");
             const domains: number = parseInt(formData.get("domains") as string || "0");
             const email: number = parseInt(formData.get("email_account") as string || "0");
-            const type: string = (formData.get("type") as string) ?? "false";
+            const type: string = (formData.get("hosting_type") as string) ?? "false";
             const migration: string = (formData.get("migration") as string) ?? "false";
-            const bandwidth: number = parseInt(formData.get("bandwidth") as string || "0");
+            const bandwidth: number = parseInt(formData.get("monthly_bandwidth") as string || "0");
             const storage: number = parseInt(formData.get("storage") as string || "0");
             const support: string = (formData.get("technical_support_24h") as string) ?? "false";
             let priceUpdate: number = 0;
@@ -160,7 +177,46 @@ function Custom() {
         }
 
     }
+    const getPackageData = (form: FormData) => {
+        const final_price: HTMLInputElement | null = document.querySelector(".final-price input#price");
 
+        const packageData: PackageData = {
+            app_installation: false,
+            monthly_bandwidth: 0,
+            domains: 0,
+            hosting_type: "COMPARTIDO",
+            databases: 0,
+            cdn: false,
+            ssl: false,
+            technical_support_24h: false,
+            package_price: 0,
+            email_account: 0,
+            ftp_server: false,
+            migration: false,
+            custom: false,
+            storage: 0,
+        }
+
+
+
+        form.forEach((value, key) => {
+            if (key === "storage" || key === "monthly_bandwidth" || key === "domains" || key === "databases" || key === "email_account") {
+                packageData[key] = parseInt(value as string);
+            } else if (key === "custom" || key === "ssl" || key === "cdn" || key === "ftp_server" || key === "app_installation" || key === "technical_support_24h") {
+                packageData[key] = value === "true";
+            } else if (key === "hosting_type") {
+                packageData[key] = value as string;
+            }
+        });
+
+
+        if (final_price) {
+            packageData.package_price = parseFloat(final_price.value);
+        }
+
+
+        return packageData;
+    }
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
@@ -169,12 +225,10 @@ function Custom() {
         } else {
             const form: HTMLFormElement = event.currentTarget as HTMLFormElement;
             const formData = new FormData(form);
-            let packageData: { [key: string]: string } = {};
+            let packageData: PackageData = getPackageData(formData);
 
-            formData.forEach((value, key) => {
-                packageData[key] = value as string;
-            });
 
+            console.log(packageData)
             navigate("/payment", { state: { packageData: packageData } });
         }
 
@@ -195,7 +249,7 @@ function Custom() {
                     <div>
                         <div>
                             <label htmlFor="type">Tipo de Hosting</label>
-                            <select name="type" id="type" onChange={handleChange}>
+                            <select name="hosting_type" id="type" onChange={handleChange}>
                                 <option value="COMPARTIDO">Compartido</option>
                                 <option value="VPS">VPS</option>
                                 <option value="DEDICADO">Dedicado</option>
@@ -209,7 +263,7 @@ function Custom() {
                         </div>
                         <div>
                             <label htmlFor="banda">Ancho de banda mensual (GB/mes)</label>
-                            <input type="number" id="banda" name="bandwidth" onChange={handleChange} />
+                            <input type="number" id="banda" name="monthly_bandwidth" onChange={handleChange} />
                         </div>
                     </div>
 
@@ -260,7 +314,7 @@ function Custom() {
 
                     <div className="final-price">
                         <label htmlFor="price">Precio Final:</label>
-                        <input type="text" id="price" name="price" defaultValue={'0€'} />{/*Debe ir actualizandose en tiempo real según las elecciones del formulario*/}
+                        <input type="text" id="price" name="price" defaultValue={'0'} />
                     </div>
 
                     <button type="submit">¡Lo quiero a mi manera!</button>

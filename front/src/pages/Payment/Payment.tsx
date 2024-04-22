@@ -176,8 +176,8 @@ function Payment() {
                                     <input type="radio" name="time-period" defaultValue="1" />
                                     <p>1 mes</p>
                                 </div>
-                                <span><p>Total<input type="number" name="final-amount" readOnly value={packageData.price} />€</p></span>
-                                <p>{packageData.price}€ al mes</p>
+                                <span><p>Total<input type="number" name="final-amount" readOnly value={packageData.package_price} />€</p></span>
+                                <p>{packageData.package_price}€ al mes</p>
                             </div>
 
                             <div id="12month">
@@ -185,8 +185,8 @@ function Payment() {
                                     <input type="radio" name="time-period" defaultValue="12" />
                                     <p>12 meses</p>
                                 </div>
-                                <span><p>Total <input type="number" name="final-amount" readOnly value={((packageData.price - (packageData.price * 0.15)) * 12).toFixed(2)} />€</p></span>
-                                <p>{(packageData.price - (packageData.price * 0.15)).toFixed(2)}€ al mes</p>
+                                <span><p>Total <input type="number" name="final-amount" readOnly value={((packageData.package_price - (packageData.package_price * 0.15)) * 12).toFixed(2)} />€</p></span>
+                                <p>{(packageData.package_price - (packageData.package_price * 0.15)).toFixed(2)}€ al mes</p>
                             </div>
 
                             <div id="24month">
@@ -194,8 +194,8 @@ function Payment() {
                                     <input type="radio" name="time-period" defaultValue="24" />
                                     <p>24 meses</p>
                                 </div>
-                                <span><p>Total <input type="number" name="final-amount" readOnly value={((packageData.price - (packageData.price * 0.15)) * 24).toFixed(2)} />€</p></span>
-                                <p>{(packageData.price - (packageData.price * 0.20)).toFixed(2)}€ al mes</p>
+                                <span><p>Total <input type="number" name="final-amount" readOnly value={((packageData.package_price - (packageData.package_price * 0.15)) * 24).toFixed(2)} />€</p></span>
+                                <p>{(packageData.package_price - (packageData.package_price * 0.20)).toFixed(2)}€ al mes</p>
                             </div>
                         </article>
 
@@ -250,17 +250,17 @@ function Payment() {
 
                         <article id="package-data">
                             <ul>
-                                <li>Tipo de hosting: {packageData.type}</li>
+                                <li>Tipo de hosting: {packageData.hosting_type}</li>
                                 <li>{packageData.storage}GB de almacenamiento</li>
-                                <li>{packageData.bandwidth}GB de ancho de banda</li>
+                                <li>{packageData.monthly_bandwidth}GB de ancho de banda</li>
                                 <li>{packageData.domains} dominios</li>
                                 <li>{packageData.databases} bases de datos</li>
                                 <li>¿CDN? {packageData.cdn ? "Sí" : "No"}</li>
-                                <li>¿Soporte 24h? {packageData.support ? "Sí" : "No"}</li>
+                                <li>¿Soporte 24h? {packageData.technical_support_24h ? "Sí" : "No"}</li>
                             </ul>
                             <div id="final-price">
                                 <label htmlFor="">Precio Final:  </label>
-                                <input type="text" value={packageData.price + "€"} />
+                                <input type="text" value={packageData.package_price + "€"} />
                             </div>
                         </article>
                     </section>

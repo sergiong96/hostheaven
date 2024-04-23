@@ -167,7 +167,7 @@ function Payment() {
     return (
         <>
             <main id="payment-page">
-                <form action="">
+                <form action="#">
                     <section id="period">
                         <p>1. Elige un período</p>
                         <article>
@@ -260,7 +260,7 @@ function Payment() {
                             </ul>
                             <div id="final-price">
                                 <label htmlFor="">Precio Final:  </label>
-                                <input type="text" value={packageData.package_price + "€"} />
+                                <input type="text" readOnly value={packageData.package_price + "€"} />
                             </div>
                         </article>
                     </section>

@@ -23,9 +23,11 @@ public class UserController {
 	private UserService userService;
 
 	@PostMapping("/signIn") // ok
-	public String createUser(@RequestBody User user) {
+	public ResponseEntity<String> createUser(@RequestBody User user) {
 		String response = userService.createUser(user);
-		return response;
+		JSONObject responseJson = new JSONObject();
+		responseJson.put("response", response);
+		return new ResponseEntity<String>(responseJson.toString(), HttpStatus.OK);
 	}
 
 	@PostMapping("/getUser/{id}") // ok

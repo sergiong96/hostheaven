@@ -121,17 +121,23 @@ function Standard() {
                 <div key={data.id_package} id={data.id_package.toString()} className={"package " + data.package_name}>
                     <span className='img-server' id={data.package_name}></span>
                     <p className='name'>{data.package_name}</p>
+                    <hr />
                     <ul className='characteristics'>
-                        <li data-name="storage" data-value={data.storage}>Almacenamiento: {data.storage}GB</li>
-                        <li data-name="domains" data-value={data.domains}>Número de dominios: {data.domains}</li>
-                        <li data-name="type" data-value={data.hosting_type}>Tipo de hosting: {data.hosting_type}</li>
-                        <li data-name="bandwidth" data-value={data.monthly_bandwidth}>Ancho de banda mensual: {data.monthly_bandwidth}GB</li>
-                        <li data-name="databases" data-value={data.databases}>Número de bases de datos: {data.databases}</li>
-                        <li data-name="cdn" data-value={data.cdn ? 'true' : 'false'}>CDN: {data.cdn ? <i className="fa-solid fa-check"></i> : <i className="fa-solid fa-xmark"></i>}</li>
-                        <li data-name="ssl" data-value={data.ssl ? 'true' : 'false'}>SSL: {data.ssl ? <i className="fa-solid fa-check"></i> : <i className="fa-solid fa-xmark"></i>}</li>
-                        <li data-name="support" data-value={data.technical_support_24h ? 'true' : 'false'}>Soporte técnico 24 horas: {data.technical_support_24h ? <i className="fa-solid fa-check"></i> : <i className="fa-solid fa-xmark"></i>}</li>
+                        <li data-name="storage" data-value={data.storage}><strong>Almacenamiento:</strong> {data.storage}GB</li>
+                        <li data-name="domains" data-value={data.domains}><strong>Dominios:</strong> {data.domains}</li>
+                        <li data-name="type" data-value={data.hosting_type}><strong>Tipo hosting:</strong> {data.hosting_type}</li>
+                        <li data-name="bandwidth" data-value={data.monthly_bandwidth}><strong>Ancho de banda mensual:</strong> {data.monthly_bandwidth}GB</li>
+                        <li data-name="databases" data-value={data.databases}><strong>Bases de datos:</strong> {data.databases}</li>
+                        <li data-name="cdn" data-value={data.cdn ? 'true' : 'false'}><strong>CDN:</strong> {data.cdn ? <i className="fa-solid fa-check" style={{ color: 'springgreen' }}></i> : <i className="fa-solid fa-xmark" style={{ color: 'red' }}></i>}</li>
+                        <li data-name="ssl" data-value={data.ssl ? 'true' : 'false'}><strong>SSL:</strong> {data.ssl ? <i className="fa-solid fa-check" style={{ color: 'springgreen' }}></i> : <i className="fa-solid fa-xmark" style={{ color: 'red' }}></i>}</li>
+                        <li data-name="support" data-value={data.technical_support_24h ? 'true' : 'false'}><strong>Soporte técnico 24 horas:</strong> {data.technical_support_24h ? <i className="fa-solid fa-check" style={{ color: 'springgreen' }}></i> : <i className="fa-solid fa-xmark" style={{ color: 'red' }}></i>}</li>
                     </ul>
-                    <p className='price' data-name="price" data-value={data.package_price}><strong>Precio:</strong> <input type="number" name="price" defaultValue={data.package_price} />€/mes</p>
+                    <div className='price' data-name="price" data-value={data.package_price}>
+                        <p><strong>Precio:</strong></p>
+                        <input type="text" name="price" value={data.package_price} readOnly />
+                        <p>€/mes</p>
+                    </div>
+                    <hr />
                     <div className='btn-to-cart'>
                         <button type="button" id={data.id_package.toString()} onClick={handlePaymentClick}>¡Lo quiero!</button>
                     </div>

@@ -4,6 +4,12 @@
     cursor: pointer;
     position: relative;
     padding-right: 2rem;
+    transition: all 0.3s;
+
+    >i:hover {
+        color: vars.$strong-red;
+        transition: all 0.3s;
+    }
 
     #logIng-signIn-buttons {
         display: flex;
@@ -11,14 +17,23 @@
         top: 2.2rem;
         right: 0;
         border: 2px solid black;
-        padding: 1rem;
-        background-color: vars.$background-white;
-        gap: 0.3rem;
+        padding: 1.5rem 3rem;
+        background-color: #F0EFEB;
+        gap: 2rem;
         width: max-content;
 
         button {
             font-size: 1rem;
             cursor: pointer;
+            padding: 0.5rem 1rem;
+            background-color: aliceblue;
+            transition: all 0.5s;
+
+            &:hover {
+                box-shadow: 0px 1px 2px 1px gray;
+                border-radius: 0.5rem;
+                transition: all 0.5s;
+            }
         }
 
         a {

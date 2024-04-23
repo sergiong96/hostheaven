@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './_User.scss';
-import { Link, NavigateFunction, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import LogInForm from '../LogInForm/LogInForm';
 import { jwtDecode } from 'jwt-decode';
 
@@ -11,7 +11,6 @@ function User() {
     const [showLogIn, setShowLogIn] = useState<boolean>(false);
     const [isLogedIn, setIsLoggedIn] = useState<boolean>(false);
     const [userName, setUserName] = useState<string>("");
-    const navigate: NavigateFunction = useNavigate();
 
     useEffect(() => {
         const token: string | null = localStorage.getItem("sessionToken");
@@ -20,10 +19,7 @@ function User() {
             const decodedToken: any = jwtDecode(token);
             const userName: string = decodedToken.name;
             setUserName(userName);
-        } else {
-            setIsLoggedIn(false);
-            navigate("/");
-        }
+        } 
     }, [])
 
 

@@ -241,13 +241,8 @@ function Custom() {
             <h3>No hay problema, crea el tuyo propio</h3>
             <article>
                 <form action="#" id="custom-creator-form" onSubmit={handleSubmit}>
-
                     <div>
-                        <label htmlFor="name">Nombre del paquete</label>
-                        <input type="text" id="name" name="package_name" />
-                    </div>
-                    <div>
-                        <div>
+                        <div className='form-group-select'>
                             <label htmlFor="type">Tipo de Hosting</label>
                             <select name="hosting_type" id="type" onChange={handleChange}>
                                 <option value="COMPARTIDO">Compartido</option>
@@ -257,28 +252,28 @@ function Custom() {
                                 <option value="WORDPRESS">WordPress</option>
                             </select>
                         </div>
-                        <div>
-                            <label htmlFor="cap">Capacidad de almacenamiento (GB)</label>
-                            <input type="number" id="cap" name="storage" onChange={handleChange} />
+                        <div className='form-group'>
+                            <label htmlFor="cap">Almacenamiento (GB)</label>
+                            <input type="number" id="cap" name="storage" onChange={handleChange} placeholder=' ' />
                         </div>
-                        <div>
-                            <label htmlFor="banda">Ancho de banda mensual (GB/mes)</label>
-                            <input type="number" id="banda" name="monthly_bandwidth" onChange={handleChange} />
+                        <div className='form-group'>
+                            <label htmlFor="banda">Ancho de banda (GB/mes)</label>
+                            <input type="number" id="banda" name="monthly_bandwidth" onChange={handleChange} placeholder=' ' />
                         </div>
                     </div>
 
                     <div>
-                        <div>
-                            <label htmlFor="doms">Número de dominios</label>
-                            <input type="number" id="doms" name="domains" onChange={handleChange} />
+                        <div className='form-group'>
+                            <label htmlFor="doms">Dominios</label>
+                            <input type="number" id="doms" name="domains" onChange={handleChange} placeholder=' ' />
                         </div>
-                        <div>
+                        <div className='form-group'>
                             <label htmlFor="databases">Bases de datos</label>
-                            <input type="number" id="databases" name="databases" onChange={handleChange} />
+                            <input type="number" id="databases" name="databases" onChange={handleChange} placeholder=' ' />
                         </div>
-                        <div>
+                        <div className='form-group'>
                             <label htmlFor="emails">Cuentas de correo</label>
-                            <input type="number" id="emails" name="email_account" onChange={handleChange} />
+                            <input type="number" id="emails" name="email_account" onChange={handleChange} placeholder=' ' />
                         </div>
                     </div>
 
@@ -313,13 +308,13 @@ function Custom() {
                     <input type="hidden" name="ftp_server" value="true" />
 
                     <div className="final-price">
-                        <label htmlFor="price">Precio Final:</label>
+                        <label htmlFor="price"><strong>Precio Final:</strong></label>
                         <input type="text" id="price" name="price" defaultValue={'0'} />
+                        <p>€</p>
                     </div>
 
                     <button type="submit">¡Lo quiero a mi manera!</button>
                 </form>
-
 
             </article>
 

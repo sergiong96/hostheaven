@@ -52,34 +52,43 @@ function Register() {
                 <section id="register-form-container">
                     <form onSubmit={HandleSubmit}>
                         <div>
-                            <label htmlFor="name">Nombre</label>
-                            <input type="text" id="name" name="name" />
-                            <label htmlFor="surname">Apellidos</label>
-                            <input type="text" id="surname" name="surname" />
+                            <div className='form-group'>
+                                <label htmlFor="name">Nombre</label>
+                                <input type="text" id="name" name="name" placeholder=' ' />
+                            </div>
+                            <div className='form-group'>
+                                <label htmlFor="surname">Apellidos</label>
+                                <input type="text" id="surname" name="surname" placeholder=' ' />
+                            </div>
                         </div>
 
                         <div>
-                            <label htmlFor="mail">Email</label>
-                            <input type="email" id="mail" name="email" />
-
-                            <label htmlFor="pass">Contraseña</label>
-                            <input type="password" id="pass" name="password" />
+                            <div className='form-group'>
+                                <label htmlFor="mail">Email</label>
+                                <input type="email" id="mail" name="email" placeholder=' ' />
+                            </div>
+                            <div className='form-group'>
+                                <label htmlFor="pass">Contraseña</label>
+                                <input type="password" id="pass" name="password" placeholder=' ' />
+                            </div>
                         </div>
 
                         <div>
-                            <label htmlFor="pay">Método de Pago (opcional)</label>
-                            <select defaultValue={'false'} id="pay" name="payment_method" onChange={handlePaymentSelected}>
-                                <option value="false">No añadir por ahora</option>
-                                <option value="TARJETA_CREDITO">Tarjeta de crédito</option>
-                                <option value="TARJETA_DEBITO">Tarjeta de débito</option>
-                                <option value="TRANSFERENCIA">Transferencia</option>
-                                <option value="PAYPAL">PayPal</option>
-                                <option value="WALLET">Wallet</option>
-                            </select>
+                            <div className='form-group-select'>
+                                <label htmlFor="pay">Método de Pago</label>
+                                <select defaultValue={'false'} id="pay" name="payment_method" onChange={handlePaymentSelected}>
+                                    <option value="false">No añadir por ahora</option>
+                                    <option value="TARJETA_CREDITO">Tarjeta de crédito</option>
+                                    <option value="TARJETA_DEBITO">Tarjeta de débito</option>
+                                    <option value="TRANSFERENCIA">Transferencia</option>
+                                    <option value="PAYPAL">PayPal</option>
+                                    <option value="WALLET">Wallet</option>
+                                </select>
+                            </div>
                             {paymentSelected &&
-                                <div>
-                                    <label htmlFor="ref">Número de cuenta o referencia</label>
-                                    <input type="text" id="ref" name="payment_reference" />
+                                <div className='form-group'>
+                                    <label htmlFor="ref">Referencia</label>
+                                    <input type="text" id="ref" name="payment_reference" placeholder=' ' />
                                 </div>}
                         </div>
 

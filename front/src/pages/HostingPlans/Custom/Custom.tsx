@@ -282,21 +282,21 @@ function Custom() {
                             <label htmlFor="support">¿Soporte técnico 24 horas?</label>
                             <select name="technical_support_24h" id="support" onChange={handleChange}>
                                 <option value="true">Sí</option>
-                                <option value="false">No</option>
+                                <option value="false" selected>No</option>
                             </select>
                         </div>
                         <div>
                             <label htmlFor="install">¿Instalador de aplicaciones?</label>
                             <select name="app_installation" id="install" onChange={handleChange}>
                                 <option value="true">Sí</option>
-                                <option value="false">No</option>
+                                <option value="false" selected>No</option>
                             </select>
                         </div>
                         <div>
                             <label htmlFor="mig">¿Migración de datos?</label>
                             <select name="migration" id="mig" onChange={handleChange}>
-                                <option value="true">Sí</option>
-                                <option value="false">No</option>
+                                <option value="true" >Sí</option>
+                                <option value="false" selected>No</option>
                             </select>
                         </div>
                     </div>

@@ -24,7 +24,9 @@ function Payment() {
     const location = useLocation();
     const navigate: NavigateFunction = useNavigate();
     const [packageData, setPackageData] = useState<any>({});
-
+    const [price1month, setPrice1month]=useState<string>("");
+    const [price12month, setPrice12month]=useState<string>("");
+    const [price24month, setPrice24month]=useState<string>("");
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
     const [userData, setUserData] = useState<UserData>({
         user_id: 0,
@@ -67,6 +69,9 @@ function Payment() {
 
     useEffect(() => {
         setPackageData(location.state.packageData);
+        setPrice1month(packageData.package_price);
+        setPrice12month(((packageData.package_price - (packageData.package_price * 0.15)) * 12).toFixed(2));
+        setPrice24month(((packageData.package_price - (packageData.package_price * 0.20)) * 24).toFixed(2));
     }, [packageData])
 
 
@@ -166,17 +171,21 @@ function Payment() {
 
     return (
         <>
-            <main id="payment-page">
+           <main id="payment-page">
                 <form action="#">
                     <section id="period">
                         <p>1. Elige un período</p>
                         <article>
                             <div id="1month">
                                 <div onClick={selectRadio}>
-                                    <input type="radio" name="time-period" defaultValue="1" />
+                                    <input type="radio" name="time-period" defaultValue="1" defaultChecked />
                                     <p>1 mes</p>
                                 </div>
-                                <span><p>Total<input type="number" name="final-amount" readOnly value={packageData.package_price} />€</p></span>
+                                <div>
+                                    <p>Total:</p>
+                                    <input type="text" name="final-amount" readOnly value={price1month} />
+                                    <p>€</p>
+                                </div>
                                 <p>{packageData.package_price}€ al mes</p>
                             </div>
 
@@ -185,7 +194,11 @@ function Payment() {
                                     <input type="radio" name="time-period" defaultValue="12" />
                                     <p>12 meses</p>
                                 </div>
-                                <span><p>Total <input type="number" name="final-amount" readOnly value={((packageData.package_price - (packageData.package_price * 0.15)) * 12).toFixed(2)} />€</p></span>
+                                <div>
+                                    <p>Total:</p>
+                                    <input type="text" name="final-amount" readOnly value={price12month} />
+                                    <p>€</p>
+                                </div>
                                 <p>{(packageData.package_price - (packageData.package_price * 0.15)).toFixed(2)}€ al mes</p>
                             </div>
 
@@ -194,7 +207,11 @@ function Payment() {
                                     <input type="radio" name="time-period" defaultValue="24" />
                                     <p>24 meses</p>
                                 </div>
-                                <span><p>Total <input type="number" name="final-amount" readOnly value={((packageData.package_price - (packageData.package_price * 0.15)) * 24).toFixed(2)} />€</p></span>
+                                <div>
+                                    <p>Total:</p>
+                                    <input type="text" name="final-amount" readOnly value={price24month} />
+                                    <p>€</p>
+                                </div>
                                 <p>{(packageData.package_price - (packageData.package_price * 0.20)).toFixed(2)}€ al mes</p>
                             </div>
                         </article>
@@ -206,23 +223,23 @@ function Payment() {
                         <article>
                             <div>
                                 <label htmlFor="credit">Tarjeta de crédito</label>
-                                <input type="radio" name="payment_method" id="credit" defaultValue="TARJETA_CREDITO" />
+                                <input type="radio" name="payment_method" id="credit" value="TARJETA_CREDITO" defaultChecked />
                             </div>
                             <div>
                                 <label htmlFor="debit">Tarjeta de débito</label>
-                                <input type="radio" name="payment_method" id="debit" defaultValue="TARJETA_DEBITO" />
+                                <input type="radio" name="payment_method" id="debit" value="TARJETA_DEBITO" />
                             </div>
                             <div>
                                 <label htmlFor="transfer">Transferencia</label>
-                                <input type="radio" name="payment_method" id="transfer" defaultValue="TRANSFERENCIA" />
+                                <input type="radio" name="payment_method" id="transfer" value="TRANSFERENCIA" />
                             </div>
                             <div>
                                 <label htmlFor="paypal">Paypal</label>
-                                <input type="radio" name="payment_method" id="paypal" defaultValue="PAYPAL" />
+                                <input type="radio" name="payment_method" id="paypal" value="PAYPAL" />
                             </div>
                             <div>
                                 <label htmlFor="wallet">Wallet</label>
-                                <input type="radio" name="payment_method" id="wallet" defaultValue="WALLET" />
+                                <input type="radio" name="payment_method" id="wallet" value="WALLET" />
                             </div>
                         </article>
                         <article>
@@ -250,13 +267,13 @@ function Payment() {
 
                         <article id="package-data">
                             <ul>
-                                <li>Tipo de hosting: {packageData.hosting_type}</li>
-                                <li>{packageData.storage}GB de almacenamiento</li>
-                                <li>{packageData.monthly_bandwidth}GB de ancho de banda</li>
-                                <li>{packageData.domains} dominios</li>
-                                <li>{packageData.databases} bases de datos</li>
-                                <li>¿CDN? {packageData.cdn ? "Sí" : "No"}</li>
-                                <li>¿Soporte 24h? {packageData.technical_support_24h ? "Sí" : "No"}</li>
+                                <li>Tipo de hosting: <span>{packageData.hosting_type}</span></li>
+                                <li><span>{packageData.storage}GB</span> de almacenamiento</li>
+                                <li><span>{packageData.monthly_bandwidth}GB</span> de ancho de banda</li>
+                                <li><span>{packageData.domains}</span> dominios</li>
+                                <li><span>{packageData.databases}</span> bases de datos</li>
+                                <li>¿CDN? <span>{packageData.cdn ? "Sí" : "No"}</span></li>
+                                <li>¿Soporte 24h? <span>{packageData.technical_support_24h ? "Sí" : "No"}</span></li>
                             </ul>
                             <div id="final-price">
                                 <label htmlFor="">Precio Final:  </label>

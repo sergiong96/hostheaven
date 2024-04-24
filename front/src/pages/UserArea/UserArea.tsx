@@ -37,6 +37,7 @@ function UserArea() {
     const [links, setLink] = useState<any[]>([]);
     const [showErrorMessage, setShowErrorMessage] = useState<boolean>(false);
     const [userID, setUserID] = useState<number>(-1);
+    const navigate: NavigateFunction = useNavigate();
     const [userData, setUserData] = useState<UserData>({
         id_user: 0,
         name: "",
@@ -58,7 +59,7 @@ function UserArea() {
         response: ""
     });
 
-    const navigate: NavigateFunction = useNavigate();
+
 
     useEffect(() => {
         const token = localStorage.getItem("sessionToken");
@@ -67,6 +68,8 @@ function UserArea() {
             const decodifiedToken: JwtPayload = jwtDecode(token);
             const id_user: number = parseInt(decodifiedToken.sub || "-1");
             setUserID(id_user);
+        } else {
+            navigate("/");
         }
     }, []);
 
@@ -94,14 +97,16 @@ function UserArea() {
     }
 
 
-    const getLinks = () => { //CAMBIAR LA FORMA EN LA QUE OBTENGO LOS LINKS
-        // if (ENDPOINTS.length > 0 && links.length <= 0) {
-        //     const parsedLinks = ENDPOINTS.map(endpoint => JSON.parse(endpoint));
-        //     setLink(parsedLinks);
-        //     setShowErrorMessage(false);
-        // } else if (ENDPOINTS.length <= 0) {
-        //     setShowErrorMessage(true);
-        // }
+    const getLinks = () => {
+        fetchEndpoints().then((data) => {
+            if (data.length > 0 && links.length <= 0) {
+                const parsedLinks = data.map(endpoint => JSON.parse(endpoint));
+                setLink(parsedLinks);
+                setShowErrorMessage(false);
+            } else if (data.length <= 0) {
+                setShowErrorMessage(true);
+            }
+        })
     }
 
 
@@ -149,7 +154,7 @@ function UserArea() {
 
     }
 
-    const handleChangePassword = (event:React.ChangeEvent<HTMLInputElement>) => {
+    const handleChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
         setNewPassword({
             ...newPassword,
@@ -157,7 +162,7 @@ function UserArea() {
         })
     }
 
-    const handleSubmitPassword = (event:React.FormEvent) => {
+    const handleSubmitPassword = (event: React.FormEvent) => {
 
         event.preventDefault();
         if (newPassword.new_pass !== newPassword.new_pass_rep) {
@@ -169,7 +174,7 @@ function UserArea() {
                 status: resStatus,
                 response: ""
             });
-            changePassword(newPassword).then((res:Response) => {
+            changePassword(newPassword).then((res: Response) => {
                 resStatus = res.status;
                 return res.json();
             }).then((data) => {

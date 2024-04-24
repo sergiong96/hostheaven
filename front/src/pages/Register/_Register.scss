@@ -35,34 +35,65 @@ main#register-page {
             flex-direction: column;
             gap: 1rem;
 
-            label {
-                display: block;
-                width: 6rem;
-            }
-
-            input {
-                width: 10rem;
-                border-radius: 0.5rem;
-                border: 2px solid gray;
-            }
-
-            div:nth-child(1),
-            div:nth-child(2) {
+            >div {
                 display: flex;
+                gap: 8rem;
+            }
 
-                input:first-of-type {
-                    margin-right: 3rem;
+            >div:last-of-type {
+                align-items: center;
+            }
+
+            .form-group {
+                position: relative;
+
+                label {
+                    position: absolute;
+                    top: 0.3rem;
+                    left: 0.3rem;
+                    color: gray;
+                    transition: all 0.5s;
+                    cursor: text;
                 }
 
+                label:has(+input:focus),
+                label:not(:has(+input:placeholder-shown)) {
+                    transform: translateX(-120%);
+                    color: black;
+                    transition: all 0.5s;
+                }
+
+                input {
+                    width: 10rem;
+                    padding: 0.5rem;
+                    border-radius: 0.5rem;
+                    border: 1px solid gray;
+                    box-shadow: 0px 0px 3px gray;
+
+                    &:focus {
+                        outline-color: lightblue;
+                    }
+                }
             }
 
-            div:nth-child(3) {
-                display: flex;
+            .form-group-select {
+                position: relative;
 
+                label {
+                    position: absolute;
+                    top: 0.1rem;
+                    left: 0.3rem;
+                    color: gray;
+                    font-size: 0.8rem;
+                    cursor: text;
+                }
 
                 select {
-                    width: 10.5rem;
-                    margin-right: 3rem;
+                    padding: 1.5rem 2.2rem 1rem 0;
+                    border-radius: 0.5rem;
+                    border: 1px solid gray;
+                    box-shadow: 0px 0px 3px gray;
+
                 }
             }
 
@@ -73,9 +104,19 @@ main#register-page {
                 border-radius: 0.5rem;
                 border: 2px solid gainsboro;
                 cursor: pointer;
-                background-color: cornflowerblue;
+                background: linear-gradient(#A4D8FC, #5eaae0);
+                background-size: 100% 200%;
+                transition: all .5s linear;
                 font-size: 1.1rem;
                 margin-top: 1rem;
+                z-index: 30;
+
+                &:hover {
+                    color: white;
+                    background-position: 0 -100%;
+                }
+
+
             }
         }
     }

@@ -8,6 +8,9 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -29,25 +32,24 @@ public class Trade {
 		PENDIENTE, COMPLETADO, CANCELADO
 	}
 
-	
 	// VARIABLES
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id_trade;
 
 	@Column(nullable = false)
-	private int id_package; // (FK) Referencia al ID del paquete contratado.
+	private int id_package; // Referencia al ID del paquete contratado.
 
 	@Column(nullable = false)
-	private int id_user; // (FK) Referencia al ID del usuario que realizó la transacción.
-
+	private int id_user; // Referencia al ID del usuario que realizó la transacción.
+	
 	@Column(nullable = false)
 	private double amount; // Cantidad monetaria de la transacción.
 
 	@Column(nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date date_start; // Fecha y hora del inicio del servicio contratado.
-	
+
 	@Column(nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date date_end; // Fecha y hora del fin del servicio contratado.
@@ -60,7 +62,8 @@ public class Trade {
 	@Enumerated(EnumType.STRING)
 	private tradeState state; // Estado de la transacción.
 
-	
+
+
 	// CONSTRUCTORES
 	public Trade() {
 	}
@@ -73,12 +76,13 @@ public class Trade {
 		this.id_user = id_user;
 		this.amount = amount;
 		this.date_start = date_start;
-		this.date_end=date_end;
+		this.date_end = date_end;
 		this.payment_method = payment_method;
 		this.state = state;
 	}
 
-	
+
+
 	// GETTERS Y SETTERS
 	public int getId_trade() {
 		return id_trade;
@@ -86,22 +90,6 @@ public class Trade {
 
 	public void setId_trade(int id_trade) {
 		this.id_trade = id_trade;
-	}
-
-	public int getId_package() {
-		return id_package;
-	}
-
-	public void setId_package(int id_package) {
-		this.id_package = id_package;
-	}
-
-	public int getId_user() {
-		return id_user;
-	}
-
-	public void setId_user(int id_user) {
-		this.id_user = id_user;
 	}
 
 	public double getAmount() {
@@ -123,11 +111,11 @@ public class Trade {
 	public Date getDate_end() {
 		return date_end;
 	}
-	
+
 	public void setDate_end(Date date_end) {
-		this.date_end=date_end;
+		this.date_end = date_end;
 	}
-	
+
 	public paymentMethod getPayment_method() {
 		return payment_method;
 	}
@@ -144,13 +132,29 @@ public class Trade {
 		this.state = state;
 	}
 
+	public int getId_package() {
+		return id_package;
+	}
+
+	public void setId_package(int id_package) {
+		this.id_package = id_package;
+	}
+
+	public int getId_user() {
+		return id_user;
+	}
+
+	public void setId_user(int id_user) {
+		this.id_user = id_user;
+	}
+
 	
-	// TO STRING
 	@Override
 	public String toString() {
-		return "Trade [id_trade=" + id_trade + ", id_package=" + id_package + ", id_user=" + id_user
-				+ ", amount=" + amount + ", date_start=" + date_start + ", date_end=" + date_end +", payment_method=" + payment_method + ", state=" + state
-				+ "]";
+		return "Trade [id_trade=" + id_trade + ", id_package=" + id_package + ", id_user=" + id_user + ", amount="
+				+ amount + ", date_start=" + date_start + ", date_end=" + date_end + ", payment_method="
+				+ payment_method + ", state=" + state + "]";
 	}
+
 
 }

@@ -4,19 +4,7 @@ import { NavigateFunction, useLocation, useNavigate } from 'react-router-dom';
 import { JwtPayload, jwtDecode } from 'jwt-decode';
 import { createTransaction } from '../../services/TradeService';
 import ServerResponse from '../../components/ServerResponse/ServerResponse';
-interface ResponseData {
-    status: number;
-    response: string;
-}
-interface UserData {
-    user_id: number;
-    name: string;
-    surname: string;
-    email: string;
-    password: string;
-    payment_method: string;
-    payment_reference: string | null
-}
+import { ResponseData, UserData } from './types';
 
 
 function Payment() {
@@ -134,7 +122,6 @@ function Payment() {
             resStatus = res.status;
             return res.json();
         }).then((data) => {
-            console.log(data)
             setResponseData({
                 status: resStatus,
                 response: data.response
@@ -142,7 +129,6 @@ function Payment() {
             setTimeout(() => {
                 navigate("/userArea");
             }, 3000);
-            console.log(responseData)
         })
 
     }

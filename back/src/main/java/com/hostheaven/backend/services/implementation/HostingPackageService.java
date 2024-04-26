@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.hostheaven.backend.models.HostingPackage;
+import com.hostheaven.backend.models.HostingPackageTradeDTO;
 import com.hostheaven.backend.repositories.implementation.HostingPackageRepository;
 import com.hostheaven.backend.services.interfaces.HostingPackageServiceInterface;
 
@@ -16,21 +17,16 @@ public class HostingPackageService implements HostingPackageServiceInterface {
 	@Override
 	public int createHostingPackage(HostingPackage hostingPackage) {
 		int id_package=this.hostingPackageRepository.createHostingPackage(hostingPackage);
-		
 		return id_package;
 	}
+	
 
 	@Override
 	public HostingPackage getHostingPackageById(int id) {
 		HostingPackage hostingPackage = this.hostingPackageRepository.getHostingPackageById(id);
 		return hostingPackage;
 	}
-
-	@Override
-	public List<HostingPackage> getAllHostingPackagesByUserId(int id_user) {
-		List<HostingPackage> hostingPackages = this.hostingPackageRepository.getAllHostingPackagesByUserId(id_user);
-		return hostingPackages;
-	}
+	
 
 	@Override
 	public List<HostingPackage> getAllStandardHostingPackages() {
@@ -38,6 +34,11 @@ public class HostingPackageService implements HostingPackageServiceInterface {
 		return hostingPackages;
 	}
 	
+	@Override
+	public HostingPackageTradeDTO getHostingPackageByUserId(int id_user) {
+		HostingPackageTradeDTO hostingPackage= this.hostingPackageRepository.getHostingPackageByUserId(id_user);
+		return hostingPackage;
+	}
 	
-
+	
 }

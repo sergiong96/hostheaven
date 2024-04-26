@@ -11,7 +11,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.hostheaven.backend.models.HostingPackageTradeDTO;
 import com.hostheaven.backend.models.User;
+import com.hostheaven.backend.models.UserDTO;
+import com.hostheaven.backend.services.implementation.TradeService;
 import com.hostheaven.backend.services.implementation.UserService;
 
 @RestController
@@ -21,6 +25,10 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private TradeService tradeService;
+	
 
 	@PostMapping("/signIn") // ok
 	public ResponseEntity<String> createUser(@RequestBody User user) {
@@ -35,6 +43,7 @@ public class UserController {
 		User usuario = userService.getUserById(id);
 		return usuario;
 	}
+	
 
 	@PostMapping("/logIn") // ok
 	public String verifyCredentials(@RequestBody String credentials) {
@@ -60,10 +69,13 @@ public class UserController {
 	}
 
 	@PostMapping("/delete/{user_id}")
-	public ResponseEntity<String> deleteUser(@PathVariable int user_id, @RequestBody String password) {
+	public ResponseEntity<String> deleteUser(@PathVariable int user_id, @RequestBody String password) { // ok
 		String response=userService.deleteUser(user_id, password);
 		JSONObject responseJson = new JSONObject();
 		responseJson.put("response", response);
 		return new ResponseEntity<String>(responseJson.toString(), HttpStatus.OK);
 	}
+	
+	
+	
 }

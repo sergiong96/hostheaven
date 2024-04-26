@@ -4,13 +4,7 @@ import Footer from '../../components/Footer/Footer';
 import ConceptView from './ConceptView/ConceptView';
 import { getAllConcepts } from '../../services/GlosaryService';
 import { useEffect, useState } from 'react';
-
-
-interface Concept {
-    id_concept: number;
-    concept_name: string;
-    description: string;
-}
+import { Concept } from './types';
 
 
 

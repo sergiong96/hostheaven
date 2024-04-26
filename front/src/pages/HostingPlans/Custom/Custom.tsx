@@ -1,23 +1,8 @@
 import { useState, useEffect } from 'react';
 import './_Custom.scss';
 import { useNavigate, NavigateFunction } from 'react-router';
+import { CustomPackageData } from '../types';
 
-interface PackageData {
-    app_installation: boolean;
-    monthly_bandwidth: number;
-    domains: number;
-    hosting_type: string;
-    databases: number;
-    cdn: boolean;
-    ssl: boolean;
-    technical_support_24h: boolean;
-    package_price: number;
-    email_account: number;
-    ftp_server: boolean;
-    migration: boolean;
-    custom: boolean;
-    storage: number;
-}
 
 function Custom() {
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
@@ -180,7 +165,7 @@ function Custom() {
     const getPackageData = (form: FormData) => {
         const final_price: HTMLInputElement | null = document.querySelector(".final-price input#price");
 
-        const packageData: PackageData = {
+        const packageData: CustomPackageData = {
             app_installation: false,
             monthly_bandwidth: 0,
             domains: 0,
@@ -225,7 +210,7 @@ function Custom() {
         } else {
             const form: HTMLFormElement = event.currentTarget as HTMLFormElement;
             const formData = new FormData(form);
-            let packageData: PackageData = getPackageData(formData);
+            let packageData: CustomPackageData = getPackageData(formData);
 
 
             console.log(packageData)
@@ -280,23 +265,23 @@ function Custom() {
                     <div className="booleans">
                         <div>
                             <label htmlFor="support">¿Soporte técnico 24 horas?</label>
-                            <select name="technical_support_24h" id="support" onChange={handleChange}>
+                            <select name="technical_support_24h" id="support" onChange={handleChange} defaultValue="false">
                                 <option value="true">Sí</option>
-                                <option value="false" selected>No</option>
+                                <option value="false">No</option>
                             </select>
                         </div>
                         <div>
                             <label htmlFor="install">¿Instalador de aplicaciones?</label>
-                            <select name="app_installation" id="install" onChange={handleChange}>
+                            <select name="app_installation" id="install" onChange={handleChange} defaultValue="false">
                                 <option value="true">Sí</option>
-                                <option value="false" selected>No</option>
+                                <option value="false">No</option>
                             </select>
                         </div>
                         <div>
                             <label htmlFor="mig">¿Migración de datos?</label>
-                            <select name="migration" id="mig" onChange={handleChange}>
+                            <select name="migration" id="mig" onChange={handleChange} defaultValue="false">
                                 <option value="true" >Sí</option>
-                                <option value="false" selected>No</option>
+                                <option value="false">No</option>
                             </select>
                         </div>
                     </div>

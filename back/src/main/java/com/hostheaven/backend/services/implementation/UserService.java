@@ -3,6 +3,7 @@ package com.hostheaven.backend.services.implementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.hostheaven.backend.models.User;
+import com.hostheaven.backend.models.UserDTO;
 import com.hostheaven.backend.repositories.implementation.UserRepository;
 import com.hostheaven.backend.services.interfaces.UserServiceInterface;
 
@@ -52,6 +53,14 @@ public class UserService implements UserServiceInterface {
 		User usuario = this.userRepository.getUserById(id);
 		return usuario;
 	}
+	
+	
+
+	//public UserDTO getUserDTOById(int id) { // ok
+	//	UserDTO usuario = this.userRepository.getUserDTOById(id);
+	//	return usuario;
+	//}
+	
 
 	@Override
 	public JSONObject verifyCredentials(String credentials) { // ok

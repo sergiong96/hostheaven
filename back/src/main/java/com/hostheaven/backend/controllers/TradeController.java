@@ -1,20 +1,20 @@
 package com.hostheaven.backend.controllers;
 
 import java.text.ParseException;
-import java.util.List;
 import java.util.Map;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.hostheaven.backend.models.HostingPackage;
 import com.hostheaven.backend.models.Trade;
 import com.hostheaven.backend.services.implementation.TradeService;
 
@@ -34,23 +34,5 @@ public class TradeController {
 		return new ResponseEntity<String>(jsonResponse.toString(), HttpStatus.OK);
 	}
 
-	@GetMapping("/transaction/{id}")
-	public Trade getTransaction(@PathVariable int id) {
-		Trade transaction = tradeService.getTradeById(id);
-		return transaction;
-
-	}
-
-	@GetMapping("/transaction/user/{id_user}")
-	public List<Trade> getAllTransactionsByUserId(@PathVariable int id_user) {
-		List<Trade> transactions = tradeService.getAllTradesByUserId(id_user);
-		return transactions;
-
-	}
-
-	@DeleteMapping("/delete/{id}")
-	public void deleteTrade(@PathVariable int id) {
-		tradeService.deleteTradeById(id);
-	}
 
 }

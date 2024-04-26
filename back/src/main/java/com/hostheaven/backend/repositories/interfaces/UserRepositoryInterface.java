@@ -1,8 +1,7 @@
 package com.hostheaven.backend.repositories.interfaces;
 
-import java.util.Map;
-
 import com.hostheaven.backend.models.User;
+import com.hostheaven.backend.models.UserDTO;
 
 public interface UserRepositoryInterface {
 

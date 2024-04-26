@@ -1,12 +1,19 @@
 package com.hostheaven.backend.models;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 /**
@@ -43,11 +50,12 @@ public class User {
 	private paymentMethod payment_method; // Método de pago seleccionado
 
 	private String payment_reference; // Cuenta bancaria, tarjeta, wallet, etc... guardada para el cobro
-
+	
 	
 	// CONSTRUCTORES
 	public User() {
 	}
+
 
 	public User(int id_user, String name, String surname, String email, String password, paymentMethod payment_method,
 			String payment_reference) {
@@ -61,7 +69,8 @@ public class User {
 		this.payment_reference = payment_reference;
 	}
 
-	
+
+
 	// GETTERS Y SETTERS
 	public int getId_user() {
 		return id_user;
@@ -118,6 +127,8 @@ public class User {
 	public void setPayment_reference(String payment_reference) {
 		this.payment_reference = payment_reference;
 	}
+	
+
 	
 	// TO STRING
 	@Override

@@ -7,6 +7,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import com.hostheaven.backend.models.User;
+import com.hostheaven.backend.models.UserDTO;
 import com.hostheaven.backend.repositories.interfaces.UserRepositoryInterface;
 
 @Repository
@@ -18,7 +19,6 @@ public class UserRepository implements UserRepositoryInterface {
 	@Override
 	public String createUser(User user) { // ok
 		String response = "";
-		System.out.println("Usuario a insertar: " + user);
 		Session session = null;
 		Transaction transaction = null;
 
@@ -27,7 +27,7 @@ public class UserRepository implements UserRepositoryInterface {
 			transaction = session.beginTransaction();
 			session.persist(user);
 			transaction.commit();
-			response = "La operación de inserción ha sido exitosa";
+			response = "Usuario registrado con éxito";
 		} catch (Exception e) {
 			if (transaction != null) {
 				transaction.rollback();
@@ -79,6 +79,26 @@ public class UserRepository implements UserRepositoryInterface {
 
 		return usuario;
 	}
+	
+	//public UserDTO getUserDTOById(int id) { // ok
+	///	Session session = sessionFactory.openSession();
+	//	Transaction transaction = session.beginTransaction();
+
+	//	String hql = "FROM User WHERE id_user=:id_user";
+	//	Query<User> query = session.createQuery(hql, User.class);
+	//	query.setParameter("id_user", id);
+	//	User usuario = query.uniqueResult();
+
+	//	UserDTO usuarioDTO=new UserDTO();
+	//	usuarioDTO.setId_user(usuario.getId_user());
+	////	usuarioDTO.setName(usuario.getName());
+	//	usuarioDTO.setSurname(usuario.getSurname());
+	//	usuarioDTO.setEmail(usuario.getEmail());
+	//	transaction.commit();
+	//	session.close();
+
+	//	return usuarioDTO;
+	//}
 
 	@Override
 	public User getUserDataByEmail(String email) {

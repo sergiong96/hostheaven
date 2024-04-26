@@ -1,12 +1,14 @@
 package com.hostheaven.backend.repositories.implementation;
 
+import com.hostheaven.backend.models.HostingPackage;
+import com.hostheaven.backend.models.HostingPackageTradeDTO;
 import com.hostheaven.backend.models.Trade;
+import com.hostheaven.backend.models.User;
 import com.hostheaven.backend.repositories.interfaces.TradeRepositoryInterface;
-import java.util.List;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -15,6 +17,9 @@ public class TradeRepository implements TradeRepositoryInterface {
 	
 	@Autowired
 	private SessionFactory sessionFactory;
+	
+	@Autowired
+	private UserRepository userRepository;
 
 	@Override
 	public String createTrade(Trade trade) {
@@ -44,18 +49,21 @@ public class TradeRepository implements TradeRepositoryInterface {
 	}
 
 	@Override
-	public Trade getTradeById(int id) {
-		return null;
-	}
-
-	@Override
-	public List<Trade> getAllTradesByUserId(int id_user) {
-		return null;
-	}
-
-	@Override
-	public void deleteTradeById(int id) {
-
+	public Trade getTradeByUserId(int user_id) {
+		Session session = sessionFactory.openSession();
+		Transaction transaction = session.beginTransaction();
+		
+		String hql = "FROM Trade WHERE id_user=:id_user";
+		Query<Trade> query = session.createQuery(hql, Trade.class);
+		query.setParameter("id_user", user_id);
+		query.setMaxResults(1);
+		Trade trade = query.uniqueResult();
+		
+		transaction.commit();
+		session.close();
+		
+		
+		return trade;
 	}
 
 }

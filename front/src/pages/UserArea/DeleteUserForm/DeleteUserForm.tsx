@@ -2,21 +2,9 @@ import './_DeleteUserForm.scss';
 import ServerResponse from '../../../components/ServerResponse/ServerResponse';
 import { useState, useEffect } from 'react';
 import { deleteUser } from '../../../services/UserService';
+import { ResponseData, DeleteUserFormProps, DeleteData } from '../types';
 
-interface ResponseData {
-    status: number;
-    response: string;
-}
 
-interface DeleteData {
-    user_id: number;
-    password: string;
-}
-
-interface DeleteUserFormProps {
-    user_id: number;
-    onClose: () => void;
-}
 
 function DeleteUserForm({ user_id, onClose }: DeleteUserFormProps) {
     const [responseData, setResponseData] = useState<ResponseData>({

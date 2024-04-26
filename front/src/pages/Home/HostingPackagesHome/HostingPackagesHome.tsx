@@ -2,40 +2,9 @@ import './_HostingPackagesHome.scss';
 import { useState, useEffect } from 'react';
 import { getAllStandardPackages } from '../../../services/HostingPackageService';
 import { useNavigate, Link, NavigateFunction } from "react-router-dom";
+import { PackageData, HostingPackage } from '../types';
 
 
-interface HostingPackage {
-    id_package: number;
-    package_name: string;
-    package_price: number;
-    ssl: boolean;
-    cdn: boolean;
-    technical_support_24h: boolean;
-    migration: boolean;
-    email_account: number;
-    app_installation: boolean;
-    ftp_server: boolean;
-    hosting_type: 'COMPARTIDO' | 'VPS' | 'DEDICADO' | 'CLOUD' | 'WORDPRESS';
-    storage: number;
-    monthly_bandwidth: number;
-    domains: number;
-    databases: number;
-    purchase_quantity: number;
-    custom: boolean;
-}
-
-interface PackageData {
-    id_package: number;
-    storage: number;
-    domains: number;
-    hosting_type: string;
-    monthly_bandwidth: number;
-    databases: number;
-    cdn: boolean;
-    ssl: boolean;
-    technical_support_24h: boolean;
-    package_price: number;
-}
 
 function HostingPackagesHome() {
     const [hostingPackages, setHostingPackages] = useState<HostingPackage[]>([]);

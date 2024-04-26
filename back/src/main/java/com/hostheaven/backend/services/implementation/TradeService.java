@@ -3,15 +3,16 @@ package com.hostheaven.backend.services.implementation;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.hostheaven.backend.models.HostingPackage;
 import com.hostheaven.backend.models.HostingPackage.hostingType;
+import com.hostheaven.backend.models.HostingPackageTradeDTO;
 import com.hostheaven.backend.models.Trade;
 import com.hostheaven.backend.models.Trade.paymentMethod;
 import com.hostheaven.backend.models.Trade.tradeState;
+import com.hostheaven.backend.models.User;
 import com.hostheaven.backend.repositories.implementation.TradeRepository;
 import com.hostheaven.backend.services.interfaces.TradeServiceInterface;
 
@@ -19,11 +20,15 @@ import com.hostheaven.backend.services.interfaces.TradeServiceInterface;
 public class TradeService implements TradeServiceInterface {
 
 	@Autowired
-	private TradeRepository tradeRepository;
+	private UserService userService;
 	
 	@Autowired
 	private HostingPackageService hostingPackageService;
 
+	@Autowired
+	private TradeRepository tradeRepository;
+	
+	
 	@Override
 	public String createTrade(Map<String, String> trade) throws ParseException {
 
@@ -33,7 +38,10 @@ public class TradeService implements TradeServiceInterface {
 		//Despues, con el id que devuelva insertCustomPackage debo crear un objeto trade con las propiedades necesarias del Object + el id
 		String response="";
 		Trade tradeObj=new Trade();
+		
 		tradeObj.setId_user(Integer.parseInt(trade.get("id_user")));
+		
+		
 		tradeObj.setAmount(Double.parseDouble(trade.get("package_price")));
 		
 		Date date_start_parsed=new SimpleDateFormat("yyy-MM-dd").parse(trade.get("date_start"));
@@ -69,11 +77,10 @@ public class TradeService implements TradeServiceInterface {
 			hostingPackage.setTechnical_support_24h(Boolean.parseBoolean((String)trade.get("technical_support_24h")));
 			System.out.println("Paquete a insertar: "+hostingPackage);
 			
-			int id_package=hostingPackageService.createHostingPackage(hostingPackage);
-			tradeObj.setId_package(id_package);
+			int id_package_custom=hostingPackageService.createHostingPackage(hostingPackage);
 			
-			System.out.println("Id del paquete: "+id_package);
-			System.out.println("Trade a insertar: "+tradeObj);
+			tradeObj.setId_package(id_package_custom);
+
 			response=this.tradeRepository.createTrade(tradeObj);
 		}else {
 	
@@ -87,20 +94,10 @@ public class TradeService implements TradeServiceInterface {
 	
 	
 	@Override
-	public Trade getTradeById(int id) {
-		Trade trade = this.tradeRepository.getTradeById(id);
+	public Trade getTradeByUserId(int id_user) {
+		Trade trade = this.tradeRepository.getTradeByUserId(id_user);
 		return trade;
 	}
 
-	@Override
-	public List<Trade> getAllTradesByUserId(int id_user) {
-		List<Trade> trades = this.tradeRepository.getAllTradesByUserId(id_user);
-		return trades;
-	}
-
-	@Override
-	public void deleteTradeById(int id) {
-		this.tradeRepository.deleteTradeById(id);
-	}
 
 }

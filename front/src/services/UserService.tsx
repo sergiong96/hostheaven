@@ -105,3 +105,18 @@ export const deleteUser = (user_id: number, password: string): Promise<Response>
         })
     });
 }
+
+
+export const getContractedPackage = (user_id: number): Promise<Response> => {
+    return new Promise((resolve, reject) => {
+        fetch(DOMAIN_NAME + `hostingpackages/getHostingPackage/${user_id}`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((res) => {
+            resolve(res);
+        });
+    });
+
+}

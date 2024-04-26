@@ -1,11 +1,6 @@
 import './_ConceptView.scss';
+import { Concept } from '../types';
 
-
-interface Concept {
-    id_concept: number;
-    concept_name: string;
-    description: string;
-}
 
 function ConceptView({ concept }: { concept: Concept | null }) {
 

@@ -3,33 +3,12 @@ import { useEffect, useState } from 'react';
 import fetchEndpoints from '../../services/VirtualminService';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
-import { getUserData, updateData, changePassword } from '../../services/UserService';
+import { getUserData, updateData, changePassword, getContractedPackage } from '../../services/UserService';
 import { JwtPayload, jwtDecode } from 'jwt-decode';
-import { NavigateFunction, useNavigate } from 'react-router-dom';
+import { NavigateFunction, useNavigate, Link } from 'react-router-dom';
 import DeleteUserForm from './DeleteUserForm/DeleteUserForm';
 import ServerResponse from '../../components/ServerResponse/ServerResponse';
-
-interface UserData {
-    id_user: number;
-    name: string;
-    surname: string;
-    email: string;
-    password: string;
-    payment_method: string;
-    payment_reference: string | null
-}
-
-interface PasswordData {
-    id_user: number;
-    actual_pass: string;
-    new_pass: string;
-    new_pass_rep: string;
-}
-
-interface ResponseData {
-    status: number;
-    response: string;
-}
+import { HostingPackageTrade, ResponseData, PasswordData, UserData } from './types';
 
 function UserArea() {
 
@@ -47,6 +26,7 @@ function UserArea() {
         payment_method: "",
         payment_reference: ""
     });
+    const [contractedPackage, setContractedPackage] = useState<HostingPackageTrade>();
     const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
     const [newPassword, setNewPassword] = useState<PasswordData>({
         id_user: -1,
@@ -80,6 +60,14 @@ function UserArea() {
                 return res.json()
             }).then((data) => {
                 setUserData(data);
+            });
+            
+            getContractedPackage(userID).then((res) => {
+                return res.json();
+            }).then((data) => {
+                if (data) {
+                    setContractedPackage(data);
+                }
             });
         }
 
@@ -186,7 +174,6 @@ function UserArea() {
         }
     }
 
-
     return (
         <>
             <Header />
@@ -257,19 +244,27 @@ function UserArea() {
 
                     <article id="hosting-summary" className={showContent === "hosting-summary" ? "active" : ""}>
                         <p>Aquí puede ver las características de su servicio activo</p>
-                        <ul>
-                            <li><p>Almacenamiento</p><span>=&gt;</span><span>{ }</span></li>
-                            <li><p>Bases de datos</p><span>=&gt;</span><span>{ }</span></li>
-                            <li><p>Cuentas de correo</p><span>=&gt;</span><span>{ }</span></li>
-                            <li><p>Tipo de hosting</p><span>=&gt;</span><span>{ }</span></li>
-                            <li><p>Número de dominios</p><span>=&gt;</span><span>{ }</span></li>
-                            <li><p>Ancho de banda</p><span>=&gt;</span><span>{ }</span></li>
-                            <li><p>¿Soporte técnico 24h?</p><span>=&gt;</span><span>{ }</span></li>
-                            <li><p>¿Migración?</p><span>=&gt;</span><span>{ }</span></li>
-                            <li><p>Fecha inicio</p><span>=&gt;</span><span>{ }</span></li>
-                            <li><p>Fecha fin</p><span>=&gt;</span><span>{ }</span></li>
-                            <li><p>Facturación</p><span>=&gt;</span><span>{ }</span></li>
-                        </ul>
+                        {contractedPackage ? (<ul>
+                            <li><p>Almacenamiento</p><span>=&gt;</span><span> {contractedPackage.hostingPackage.storage+"GB"}</span></li>
+                            <li><p>Bases de datos</p><span>=&gt;</span><span> {contractedPackage.hostingPackage.databases}</span></li>
+                            <li><p>Cuentas de correo</p><span>=&gt;</span><span> {contractedPackage.hostingPackage.email_account}</span></li>
+                            <li><p>Tipo de hosting</p><span>=&gt;</span><span> {contractedPackage.hostingPackage.hosting_type}</span></li>
+                            <li><p>Número de dominios</p><span>=&gt;</span><span> {contractedPackage.hostingPackage.domains}</span></li>
+                            <li><p>Ancho de banda</p><span>=&gt;</span><span> {contractedPackage.hostingPackage.monthly_bandwidth+"GB/mes"}</span></li>
+                            <li><p>¿Soporte técnico 24h?</p><span>=&gt;</span><span> {contractedPackage.hostingPackage.technical_support_24h ? "Sí":"No"}</span></li>
+                            <li><p>¿Migración?</p><span>=&gt;</span><span> {contractedPackage.hostingPackage.migration ? "Sí":"No"}</span></li>
+                            <li><p>Fecha inicio</p><span>=&gt;</span><span> {contractedPackage.date_start}</span></li>
+                            <li><p>Fecha fin</p><span>=&gt;</span><span> {contractedPackage.date_end}</span></li>
+                            <li><p>Facturación</p><span>=&gt;</span><span> {contractedPackage.amount+"€"}</span></li>
+                        </ul>) : (
+                            <div>
+                                <div>
+                                    <p>No dispone de ningún servicio de hosting activo.</p>
+                                    <p>Contrátelo ahora y contruya su presencia en línea</p>
+                                    <button type="button"><Link to="/hostingPlans">Ver servicios de hosting <i className="fa-solid fa-eye"></i></Link></button>
+                                </div>
+                            </div>
+                        )}
 
                     </article>
                 </section>

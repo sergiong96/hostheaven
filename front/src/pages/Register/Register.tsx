@@ -3,14 +3,19 @@ import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import { useState } from 'react';
 import { signIn } from '../../services/UserService';
-
+import { ResponseData } from './types';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
+import ServerResponse from '../../components/ServerResponse/ServerResponse';
 
 function Register() {
 
     const imgRegister:string = require("../../assets/images/register.jpeg");
-
+    const navigate: NavigateFunction = useNavigate();
     const [paymentSelected, isPaymentSelected] = useState<boolean>(false);
-
+    const [responseData, setResponseData] = useState<ResponseData>({
+        status: 0,
+        response: ""
+    });
 
 
     const handlePaymentSelected = (event:React.ChangeEvent<HTMLSelectElement>) => {
@@ -34,10 +39,24 @@ function Register() {
     async function HandleSubmit(event: React.FormEvent) {
         event.preventDefault();
         const formData = getFormData(event.target as HTMLFormElement);
+        let resStatus = 0;
 
-        signIn(formData).then((data) => {
-            console.log(data);
+        setResponseData({
+            status: resStatus,
+            response: ""
         });
+        signIn(formData).then((res) => {
+            resStatus = res.status;
+            return res.json();
+        }).then((data)=>{
+            setResponseData({
+                status: resStatus,
+                response: data.response
+            });
+            setTimeout(() => {
+                navigate("/");
+            }, 3000);
+        })
 
     }
 
@@ -96,6 +115,8 @@ function Register() {
                     </form>
                 </section>
             </main>
+            {responseData.status !== 0 && <ServerResponse responseStatus={responseData.status} response={responseData.response} />}
+
             <Footer />
         </>
     );
